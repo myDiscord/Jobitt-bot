@@ -1,0 +1,15 @@
+[Unit]
+Description=chat_bot
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/my_bots/chat_bot
+ExecStart=/root/my_bots/chat_bot/venv/bin/python3 /root/my_bots/chat_bot/main.py
+RestartSec=10
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
