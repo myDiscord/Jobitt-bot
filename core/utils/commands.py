@@ -18,6 +18,10 @@ async def admin_commands(bot: Bot):
         BotCommand(
             command='admin',
             description='Admin menu'
+        ),
+        BotCommand(
+            command='ch4nge_pass',
+            description='Change admin password'
         )
     ]
 

@@ -5,21 +5,6 @@ from dataclasses import dataclass
 @dataclass
 class Bots:
     bot_token: str
-    admin_id: int
-
-
-@dataclass
-class Company:
-    name: str
-    site: str
-    offer: str
-    start_parameter: str
-    logo: str
-
-
-@dataclass
-class Wallet:
-    token: str
 
 
 @dataclass
@@ -34,8 +19,6 @@ class Db:
 @dataclass
 class Settings:
     bots: Bots
-    company: Company
-    wallet: Wallet
     db: Db
 
 
@@ -45,18 +28,7 @@ def get_settings(path: str):
 
     return Settings(
         bots=Bots(
-            bot_token=env.str('TOKEN'),
-            admin_id=env.int('ADMIN_ID')
-        ),
-        company=Company(
-            name=env.str('COMPANY_NAME'),
-            site=env.str('COMPANY_WEBSITE'),
-            offer=env.str('OFFER_LINK'),
-            start_parameter=env.str('START_PARAMETER'),
-            logo=env.str('LOGO'),
-        ),
-        wallet=Wallet(
-            token=env.str('LIQPAY_TOKEN')
+            bot_token=env.str('TOKEN')
         ),
         db=Db(
             db_user=env.str('DB_USER'),

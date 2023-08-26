@@ -3,7 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from core.database.db_users import Users
-from core.keyboards.user.reply import rkb_main_menu, rkb_next, rkb_menu
+from core.keyboards.user.menu_reply import rkb_main_menu, rkb_next, rkb_menu
 from core.utils.chat_cleaner import del_message, message_list
 from core.utils.states import UserState
 
@@ -19,7 +19,7 @@ async def registration(message: Message, bot: Bot, state: FSMContext) -> None:
         Enter your <b>email</b>
         """,
         parse_mode='HTML',
-        reply_markup=rkb_main_menu
+        reply_markup=rkb_main_menu()
     )
     message_list.append(msg.message_id)
     await state.set_state(UserState.email)
@@ -37,7 +37,7 @@ async def get_email(message: Message, bot: Bot, state: FSMContext) -> None:
         Enter your <b>linked-in</b>
         """,
         parse_mode='HTML',
-        reply_markup=rkb_next
+        reply_markup=rkb_next()
     )
     message_list.append(msg.message_id)
     await state.set_state(UserState.linked_in)
@@ -55,7 +55,7 @@ async def get_linked_in(message: Message, bot: Bot, users: Users, state: FSMCont
         text="""
         Thank you for registering. Customize your alerts in the menu.
         """,
-        reply_markup=rkb_menu
+        reply_markup=rkb_menu()
     )
     message_list.append(msg.message_id)
 

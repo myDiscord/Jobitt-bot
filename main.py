@@ -6,6 +6,7 @@ import contextlib
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.redis import RedisStorage
 
+from core.database.db_subscription import Subscription
 from core.database.db_users import Users
 
 from core.settings import settings
@@ -13,18 +14,18 @@ from core.settings import settings
 from core.utils.commands import set_commands
 from core.utils.db_create import check_database_exists, create_database
 
-from core.handlers.admin import router as admin
-from core.handlers.start import router as user
+from core.handlers.routers import user_router
 
 
-async def start_bot(bot: Bot, users: Users) -> None:
+async def start_bot(bot: Bot, users: Users, subscription: Subscription) -> None:
     await set_commands(bot)
     await users.create_users_table_if_not_exists()
-    # await bot.send_message(settings.bots.admin_id, text='Бот работает')
+    await subscription.create_subscription_table_if_not_exists()
+    # await bot.send_message(settings.bots.admin_id, text='Bot works')
 
 
 async def stop_bot(bot: Bot) -> None:
-    # await bot.send_message(settings.bots.admin_id, text='Бот не работаетk')
+    # await bot.send_message(settings.bots.admin_id, text='Bot doesn't works')
     pass
 
 
@@ -54,18 +55,19 @@ async def start():
     dp.shutdown.register(stop_bot)
 
     dp.include_routers(
-        admin,
-        user
+        user_router
     )
 
     db_users = Users(pool_connect)
+    db_subscription = Subscription(pool_connect)
 
     try:
         await bot.delete_webhook(drop_pending_updates=True)
         await dp.start_polling(
             bot,
             allowed_updates=dp.resolve_used_update_types(),
-            users=db_users
+            users=db_users,
+            subscription=db_subscription
         )
     except Exception as ex:
         logging.error(f'[!!! Exception] - {ex}', exc_info=True)

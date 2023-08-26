@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from core.database.db_users import Users
-from core.keyboards.user.reply import rkb_start, rkb_menu
+from core.keyboards.user.menu_reply import rkb_start, rkb_menu
 from core.utils.chat_cleaner import del_message, message_list
 
 router = Router()
@@ -21,7 +21,7 @@ async def cmd_start(message: Message, bot: Bot, users: Users, state: FSMContext)
             Welcome!
 Please register to get started.
             """,
-            reply_markup=rkb_start
+            reply_markup=rkb_start()
         )
 
     else:
@@ -31,7 +31,7 @@ Please register to get started.
             text="""
             Main menu
             """,
-            reply_markup=rkb_menu
+            reply_markup=rkb_menu()
         )
 
     message_list.append(msg.message_id)

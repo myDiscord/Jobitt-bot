@@ -15,7 +15,30 @@ class UserState(StatesGroup):
     country = State()
     city = State()
 
+    subscriptions = State()
+
 
 class AdminState(StatesGroup):
 
-    pass
+    get_password = State()
+    new_password = State()
+
+
+class SmmState(StatesGroup):
+
+    post = State()
+
+    text = State()
+
+    photo = State()
+    video = State()
+    media_text = State()
+
+    circle = State()
+
+    button_text = State()
+    button_url = State()
+
+    time = State()
+
+    post_id = State()
