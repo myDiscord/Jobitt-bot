@@ -56,7 +56,7 @@ class Subscription:
 
     async def get_subscription(self, subscription_ids: list) -> list:
         query = await self.connector.fetch("""
-            SELECT id, job_type, technologies, experience, salary_rate, english_lvl, country, city
+            SELECT id, job_type, technologies, experience, english_lvl, country, city
             FROM subscription
             WHERE id = ANY($1)
         """, subscription_ids)
@@ -87,9 +87,9 @@ class Subscription:
     # admin statistic
     async def get_statistic_by_category(self, category: str) -> dict:
         query = f"""
-            SELECT {category}, COUNT(*) as total_count
+            SELECT unnest(string_to_array({category}::text, ',')) as category, COUNT(*) as total_count
             FROM subscription
-            GROUP BY {category}
+            GROUP BY category
         """
         rows = await self.connector.fetch(query)
 
@@ -99,7 +99,7 @@ class Subscription:
         }
 
         for row in rows:
-            category_value = row[category]
+            category_value = row['category']
             count = row['total_count']
             result["details"][category_value] = count
             result["total"] += count

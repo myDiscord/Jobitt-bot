@@ -5,6 +5,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
 from core.database.db_post import Post
+from core.database.db_users import Users
 from core.keyboards.smm_keyboards import rkb_smm, rkb_smm_menu, rkb_time_button, ikb_keyboard, rkb_new_post, ikb_day, \
     ikb_hour, ikb_minute, rkb_cancel, rkb_media_time_button
 from core.utils.chat_cleaner import del_message, message_list, del_callback
@@ -474,8 +475,11 @@ async def preview(smm_id: int, bot: Bot, state: FSMContext) -> None:
     await state.set_state(SmmState.send)
 
 
-@router.message(F.text == '📨 Send', SmmState.send)
-async def send(message: Message, bot: Bot, post: Post, state: FSMContext) -> None:
+@router.message(F.text == '📨 Send', SmmState.time)
+@router.message(F.text == '📨 Send', SmmState.button_url)
+@router.message(F.text == '📨 Send', SmmState.circle)
+@router.message(F.text == '📨 Send', SmmState.media_text)
+async def send(message: Message, bot: Bot, users: Users, post: Post, state: FSMContext) -> None:
 
     data = await state.get_data()
     text = data.get('text')
@@ -486,24 +490,24 @@ async def send(message: Message, bot: Bot, post: Post, state: FSMContext) -> Non
     button_text = data.get('button_text')
     button_url = data.get('button_url')
 
-    year = data.get('year')
-    month = data.get('month')
-    day = data.get('day')
-    hour = data.get('hour')
-    minute = data.get('minute')
-
-    formatted_datetime = datetime(year, month, day, hour, minute)
-
-    post_id = await post.add_row(text, photo, video, caption, circle,
-                                 formatted_datetime, button_text, button_url)
+    # year = data.get('year')
+    # month = data.get('month')
+    # day = data.get('day')
+    # hour = data.get('hour')
+    # minute = data.get('minute')
+    #
+    # formatted_datetime = datetime(year, month, day, hour, minute)
+    #
+    # post_id = await post.add_row(text, photo, video, caption, circle,
+    #                              formatted_datetime, button_text, button_url)
 
     await del_message(bot, message, message_list)
 
-    await message.answer(
-        text=f"""
-        Post №{post_id} scheduled for {day}.{month}.{year} {hour}:{minute}
-        """
-    )
+    # await message.answer(
+    #     text=f"""
+    #     Post №{post_id} scheduled for {day}.{month}.{year} {hour}:{minute}
+    #     """
+    # )
 
     await state.clear()
 
@@ -515,6 +519,40 @@ async def send(message: Message, bot: Bot, post: Post, state: FSMContext) -> Non
     )
     message_list.append(msg.message_id)
     await state.set_state(SmmState.post)
+
+    telegram_ids = await users.get_users()
+
+    for user_id in telegram_ids:
+        try:
+            if photo:
+                await bot.send_photo(
+                    chat_id=user_id,
+                    photo=photo,
+                    caption=caption,
+                    reply_markup=ikb_keyboard(button_text, button_url)
+                )
+            elif video:
+                await bot.send_video(
+                    chat_id=user_id,
+                    video=video,
+                    caption=caption,
+                    reply_markup=ikb_keyboard(button_text, button_url)
+                )
+            elif circle:
+                await bot.send_video_note(
+                    chat_id=user_id,
+                    video_note=circle
+                )
+            else:
+                await bot.send_message(
+                    chat_id=user_id,
+                    text=text,
+                    reply_markup=ikb_keyboard(button_text, button_url)
+                )
+        except Exception as e:
+            error_message = f'{datetime.now()} Exception {e}'
+            with open('logs.txt', 'a') as log_file:
+                log_file.write(error_message + '\n')
 
 
 @router.callback_query(F.data == '-')

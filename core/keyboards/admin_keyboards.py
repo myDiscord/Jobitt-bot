@@ -14,7 +14,7 @@ def rkb_admin() -> ReplyKeyboardMarkup:
     builder.button(text='💾 Download')
 
     builder.button(text='🔑 Change password')
-    builder.button(text='🎚 Publications settings')
+    builder.button(text='🎚 Hold')
 
     builder.adjust(2, 2, 2)
     return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)

@@ -15,7 +15,7 @@ async def cmd_start(message: Message, subscription: Subscription, bot: Bot, stat
 
     await del_message(bot, message, message_list)
 
-    categories = ['job_type', 'technologies', 'experience', 'salary_rate', 'english_lvl']
+    categories = ['job_type', 'technologies', 'experience', 'english_lvl', 'country', 'city']
     msg = await message.answer(
         text="""
         Interests:
@@ -28,6 +28,7 @@ async def cmd_start(message: Message, subscription: Subscription, bot: Bot, stat
         stats = await subscription.get_statistic_by_category(category)
         text = f"{category.capitalize()} total: {stats['total']}"
         for subcategory, count in stats['details'].items():
+            subcategory = subcategory.strip('{}"')
             text += f"\n- {subcategory} - {count}"
 
         msg = await message.answer(

@@ -13,7 +13,7 @@ def rkb_smm() -> ReplyKeyboardMarkup:
     builder.button(text='⚪️ Video note')
     builder.button(text='📷 Photo')
 
-    builder.button(text='❌📨 Cancel')
+    # builder.button(text='❌📨 Cancel')
     builder.button(text='🏠 Main menu')
 
     builder.adjust(2, 2, 2)
@@ -42,7 +42,7 @@ def rkb_smm_menu() -> ReplyKeyboardMarkup:
 def rkb_time_button() -> ReplyKeyboardMarkup:
     builder = ReplyKeyboardBuilder()
 
-    builder.button(text='⏱ Select time')
+    builder.button(text='📨 Send')
     builder.button(text='⌨️ Add button')
     builder.button(text='🚫 Cancel')
 
@@ -53,7 +53,7 @@ def rkb_time_button() -> ReplyKeyboardMarkup:
 def rkb_media_time_button() -> ReplyKeyboardMarkup:
     builder = ReplyKeyboardBuilder()
 
-    builder.button(text='⏱ Select time')
+    builder.button(text='📨 Send')
     builder.button(text='💬 Add caption')
     builder.button(text='⌨️ Add button')
     builder.button(text='🚫 Cancel')

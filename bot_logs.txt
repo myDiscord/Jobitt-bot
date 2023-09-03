@@ -4118,3 +4118,427 @@ KeyError: 'Повний робочий день'
 2023-09-02 17:46:47,398 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
 2023-09-02 17:46:47,667 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
 2023-09-02 17:46:47,698 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-03 16:11:40,334 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-03 16:11:41,158 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:11:42,009 - [ERROR] - asyncio - (base_events.py).default_exception_handler(1765) - Task exception was never retrieved
+future: <Task finished name='Task-32' coro=<check_for_mailing() done, defined at /Users/Kafka/PycharmProjects/Jobitt-bot/core/utils/data_mailing.py:69> exception=KeyError('Повний робочий день')>
+Traceback (most recent call last):
+  File "/Users/Kafka/PycharmProjects/Jobitt-bot/core/utils/data_mailing.py", line 128, in check_for_mailing
+    if user['job_type'] != is_type[row['work_type']]:
+                           ~~~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'Повний робочий день'
+2023-09-03 16:11:43,713 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867976 is handled. Duration 210 ms by bot id=6033498503
+2023-09-03 16:11:45,200 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867977 is handled. Duration 246 ms by bot id=6033498503
+2023-09-03 16:11:48,469 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867978 is not handled. Duration 553 ms by bot id=6033498503
+2023-09-03 16:11:48,469 - [ERROR] - aiogram.event - (dispatcher.py)._process_update(314) - Cause exception while process update id=11867978 by bot id=6033498503
+TypeError: unhashable type: 'list'
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 308, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 157, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py", line 222, in __aexit__
+    await self.gen.athrow(typ, value, traceback)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/fsm/storage/memory.py", line 56, in lock
+    yield
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/fsm/middleware.py", line 39, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/telegram.py", line 120, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/handler.py", line 42, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 275, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 144, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 144, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 136, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/telegram.py", line 120, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/handler.py", line 42, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "/Users/Kafka/PycharmProjects/Jobitt-bot/core/handlers/admins/interests.py", line 28, in cmd_start
+    stats = await subscription.get_statistic_by_category(category)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/Kafka/PycharmProjects/Jobitt-bot/core/database/db_subscription.py", line 104, in get_statistic_by_category
+    result["details"][category_value] = count
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+2023-09-03 16:14:47,486 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
+2023-09-03 16:14:47,493 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:14:47,495 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-03 16:15:01,462 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-03 16:15:02,631 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:15:06,431 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867979 is handled. Duration 484 ms by bot id=6033498503
+2023-09-03 16:15:08,993 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867980 is not handled. Duration 410 ms by bot id=6033498503
+2023-09-03 16:15:08,993 - [ERROR] - aiogram.event - (dispatcher.py)._process_update(314) - Cause exception while process update id=11867980 by bot id=6033498503
+TypeError: unhashable type: 'list'
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 308, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 157, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py", line 222, in __aexit__
+    await self.gen.athrow(typ, value, traceback)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/fsm/storage/memory.py", line 56, in lock
+    yield
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/fsm/middleware.py", line 39, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/telegram.py", line 120, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/handler.py", line 42, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 275, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 144, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 144, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 136, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/telegram.py", line 120, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/handler.py", line 42, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "/Users/Kafka/PycharmProjects/Jobitt-bot/core/handlers/admins/interests.py", line 28, in cmd_start
+    stats = await subscription.get_statistic_by_category(category)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/Kafka/PycharmProjects/Jobitt-bot/core/database/db_subscription.py", line 104, in get_statistic_by_category
+    result["details"][category_value] = count
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+2023-09-03 16:15:38,073 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
+2023-09-03 16:15:38,083 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:15:38,088 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-03 16:15:49,361 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-03 16:15:50,295 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:15:55,629 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
+2023-09-03 16:15:55,630 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:15:55,631 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-03 16:16:11,436 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-03 16:16:12,188 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:16:22,218 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
+2023-09-03 16:16:22,228 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:16:22,229 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-03 16:16:35,735 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-03 16:16:36,502 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:16:38,174 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867981 is handled. Duration 375 ms by bot id=6033498503
+2023-09-03 16:16:40,502 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867982 is handled. Duration 555 ms by bot id=6033498503
+2023-09-03 16:20:54,831 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
+2023-09-03 16:20:54,930 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:20:54,931 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-03 16:21:10,415 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-03 16:21:11,189 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:21:13,452 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867983 is handled. Duration 390 ms by bot id=6033498503
+2023-09-03 16:21:14,852 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867984 is not handled. Duration 367 ms by bot id=6033498503
+2023-09-03 16:21:14,853 - [ERROR] - aiogram.event - (dispatcher.py)._process_update(314) - Cause exception while process update id=11867984 by bot id=6033498503
+UndefinedFunctionError: function unnest(text) does not exist
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 308, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 157, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py", line 222, in __aexit__
+    await self.gen.athrow(typ, value, traceback)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/fsm/storage/memory.py", line 56, in lock
+    yield
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/fsm/middleware.py", line 39, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/telegram.py", line 120, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/handler.py", line 42, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 275, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 144, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 144, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 136, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/telegram.py", line 120, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/handler.py", line 42, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "/Users/Kafka/PycharmProjects/Jobitt-bot/core/handlers/admins/interests.py", line 28, in cmd_start
+    stats = await subscription.get_statistic_by_category(category)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/Kafka/PycharmProjects/Jobitt-bot/core/database/db_subscription.py", line 94, in get_statistic_by_category
+    rows = await self.connector.fetch(query)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/asyncpg/pool.py", line 598, in fetch
+    return await con.fetch(
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/asyncpg/connection.py", line 620, in fetch
+    return await self._execute(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/asyncpg/connection.py", line 1659, in _execute
+    result, _ = await self.__execute(
+                ^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/asyncpg/connection.py", line 1684, in __execute
+    return await self._do_execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/asyncpg/connection.py", line 1719, in _do_execute
+    stmt = await self._get_statement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/asyncpg/connection.py", line 397, in _get_statement
+    statement = await self._protocol.prepare(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "asyncpg/protocol/protocol.pyx", line 168, in prepare
+asyncpg.exceptions.UndefinedFunctionError: function unnest(text) does not exist
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+2023-09-03 16:22:35,488 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
+2023-09-03 16:22:35,500 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:22:35,501 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-03 16:22:52,275 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-03 16:22:53,150 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:22:55,510 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867985 is handled. Duration 287 ms by bot id=6033498503
+2023-09-03 16:22:57,929 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867986 is not handled. Duration 1005 ms by bot id=6033498503
+2023-09-03 16:22:57,930 - [ERROR] - aiogram.event - (dispatcher.py)._process_update(314) - Cause exception while process update id=11867986 by bot id=6033498503
+UndefinedFunctionError: function string_to_array(text[], unknown) does not exist
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 308, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 157, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/middlewares/error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py", line 222, in __aexit__
+    await self.gen.athrow(typ, value, traceback)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/fsm/storage/memory.py", line 56, in lock
+    yield
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/fsm/middleware.py", line 39, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/telegram.py", line 120, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/handler.py", line 42, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/dispatcher.py", line 275, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 144, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 144, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/router.py", line 136, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/telegram.py", line 120, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiogram/dispatcher/event/handler.py", line 42, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "/Users/Kafka/PycharmProjects/Jobitt-bot/core/handlers/admins/interests.py", line 28, in cmd_start
+    stats = await subscription.get_statistic_by_category(category)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/Kafka/PycharmProjects/Jobitt-bot/core/database/db_subscription.py", line 97, in get_statistic_by_category
+    rows = await self.connector.fetch(query)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/asyncpg/pool.py", line 598, in fetch
+    return await con.fetch(
+           ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/asyncpg/connection.py", line 620, in fetch
+    return await self._execute(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/asyncpg/connection.py", line 1659, in _execute
+    result, _ = await self.__execute(
+                ^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/asyncpg/connection.py", line 1684, in __execute
+    return await self._do_execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/asyncpg/connection.py", line 1719, in _do_execute
+    stmt = await self._get_statement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/asyncpg/connection.py", line 397, in _get_statement
+    statement = await self._protocol.prepare(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "asyncpg/protocol/protocol.pyx", line 168, in prepare
+asyncpg.exceptions.UndefinedFunctionError: function string_to_array(text[], unknown) does not exist
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+2023-09-03 16:23:44,250 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
+2023-09-03 16:23:44,266 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:23:44,270 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-03 16:23:57,019 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-03 16:23:57,808 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:24:01,301 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867987 is handled. Duration 460 ms by bot id=6033498503
+2023-09-03 16:24:02,968 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867988 is handled. Duration 993 ms by bot id=6033498503
+2023-09-03 16:25:28,029 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
+2023-09-03 16:25:28,054 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:25:28,056 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-03 16:25:46,029 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-03 16:25:47,063 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:25:58,116 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867989 is handled. Duration 930 ms by bot id=6033498503
+2023-09-03 16:25:59,915 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867990 is handled. Duration 888 ms by bot id=6033498503
+2023-09-03 16:45:14,851 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
+2023-09-03 16:45:14,983 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:45:14,984 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-03 16:45:33,317 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-03 16:45:34,298 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:45:36,807 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867991 is handled. Duration 502 ms by bot id=6033498503
+2023-09-03 16:45:38,543 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867992 is handled. Duration 1012 ms by bot id=6033498503
+2023-09-03 16:46:30,945 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
+2023-09-03 16:46:30,955 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:46:30,957 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-03 16:46:42,699 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-03 16:46:43,574 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:46:49,358 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867993 is handled. Duration 434 ms by bot id=6033498503
+2023-09-03 16:46:51,484 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867994 is handled. Duration 1046 ms by bot id=6033498503
+2023-09-03 16:46:54,717 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867995 is handled. Duration 763 ms by bot id=6033498503
+2023-09-03 16:47:02,908 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867996 is handled. Duration 5799 ms by bot id=6033498503
+2023-09-03 16:47:05,891 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867997 is handled. Duration 757 ms by bot id=6033498503
+2023-09-03 16:47:11,213 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867998 is handled. Duration 328 ms by bot id=6033498503
+2023-09-03 16:47:13,892 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11867999 is handled. Duration 313 ms by bot id=6033498503
+2023-09-03 16:47:18,165 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11868000 is handled. Duration 235 ms by bot id=6033498503
+2023-09-03 16:47:21,913 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11868001 is not handled. Duration 37 ms by bot id=6033498503
+2023-09-03 16:48:35,548 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
+2023-09-03 16:48:35,558 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:48:35,560 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-03 16:48:54,597 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-03 16:48:55,398 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:48:59,463 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11868002 is handled. Duration 717 ms by bot id=6033498503
+2023-09-03 16:50:35,630 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11868003 is handled. Duration 1054 ms by bot id=6033498503
+2023-09-03 16:50:37,253 - [INFO] - aiogram.event - (dispatcher.py).feed_update(171) - Update id=11868004 is handled. Duration 579 ms by bot id=6033498503
+2023-09-03 16:51:16,836 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
+2023-09-03 16:51:16,999 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'
+2023-09-03 16:51:17,005 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-03 16:51:45,923 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-03 16:51:47,005 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @Chat_enter_bot id=6033498503 - 'Chat_enter_bot'

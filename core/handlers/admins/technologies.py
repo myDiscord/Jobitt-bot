@@ -48,7 +48,7 @@ async def settings(message: Message, bot: Bot, admins: Admins) -> None:
 
 
 @router.message(F.text == '🔙 Back', AdminState.technology_time)
-@router.message(F.text == '🎚 Publications settings')
+@router.message(F.text == '🎚 Hold')
 async def settings(message: Message, bot: Bot, admins: Admins, state: FSMContext) -> None:
     await state.clear()
 
@@ -65,7 +65,7 @@ async def settings(message: Message, bot: Bot, admins: Admins, state: FSMContext
     message_list.append(msg.message_id)
     msg = await message.answer(
         text=f"""
-        Select the <b>technology</b> for which the publication will be suspended
+        Select <b>technologies</b> to hold
         """,
         parse_mode='HTML',
         reply_markup=rkb_technologies(sorted(tech_list))
@@ -121,14 +121,14 @@ async def get_technology(message: Message, bot: Bot, admins: Admins, state: FSMC
 
     msg = await message.answer(
         text=f"""
-                Hold list:{text}
-                """
+        Hold list:{text}
+        """
     )
     message_list.append(msg.message_id)
 
     msg = await message.answer(
         text=f"""
-        Select the <b>technology</b> for which the publication will be suspended
+        Select <b>technologies</b> to hold
         """,
         parse_mode='HTML',
         reply_markup=rkb_technologies(sorted(tech_list))
