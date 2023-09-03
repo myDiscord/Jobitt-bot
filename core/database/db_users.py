@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 
 import asyncpg
+import pandas as pd
 
 
 class Users:
@@ -95,3 +96,12 @@ class Users:
             SELECT COUNT(*) FROM users
             WHERE date = $1
         """, target_date)
+
+    async def export_to_excel(self, table_name: str, filename: str):
+        query = f"SELECT * FROM {table_name}"
+        records = await self.connector.fetch(query)
+        if not records:
+            return False
+        else:
+            df = pd.DataFrame(records, columns=records[0].keys())
+            df.to_excel(filename, engine='openpyxl', index=False)

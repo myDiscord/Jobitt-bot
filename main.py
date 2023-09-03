@@ -6,21 +6,33 @@ import contextlib
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.redis import RedisStorage
 
+from core.database.db_admins import Admins
+from core.database.db_post import Post
 from core.database.db_subscription import Subscription
 from core.database.db_users import Users
 
 from core.settings import settings
 
 from core.utils.commands import set_commands
+from core.utils.data_mailing import check_for_mailing
 from core.utils.db_create import check_database_exists, create_database
+from core.utils.download_data import update_json
+from core.utils.poster import bot_poster
+from core.utils.tech import create_tech_list
 
-from core.handlers.routers import user_router
+from core.handlers.routers import user_router, admin_router
 
 
-async def start_bot(bot: Bot, users: Users, subscription: Subscription) -> None:
+async def start_bot(bot: Bot, users: Users, subscription: Subscription, post: Post, admins: Admins) -> None:
     await set_commands(bot)
     await users.create_users_table_if_not_exists()
     await subscription.create_subscription_table_if_not_exists()
+    await admins.create_admins_table_if_not_exists()
+    await post.create_post_table_if_not_exists()
+    asyncio.create_task(update_json())
+    asyncio.create_task(create_tech_list())
+    asyncio.create_task(check_for_mailing(bot, subscription, admins))
+    asyncio.create_task(bot_poster(bot, users, post))
     # await bot.send_message(settings.bots.admin_id, text='Bot works')
 
 
@@ -39,7 +51,8 @@ async def create_pool():
 async def start():
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s - [%(levelname)s] - %(name)s - "
-                               "(%(filename)s).%(funcName)s(%(lineno)d) - %(message)s"
+                               "(%(filename)s).%(funcName)s(%(lineno)d) - %(message)s",
+                        handlers=[logging.FileHandler("bot_logs.txt"), logging.StreamHandler()]
                         )
 
     database_exists = await check_database_exists()
@@ -55,11 +68,14 @@ async def start():
     dp.shutdown.register(stop_bot)
 
     dp.include_routers(
-        user_router
+        user_router,
+        admin_router
     )
 
     db_users = Users(pool_connect)
     db_subscription = Subscription(pool_connect)
+    db_post = Post(pool_connect)
+    db_admins = Admins(pool_connect)
 
     try:
         await bot.delete_webhook(drop_pending_updates=True)
@@ -67,7 +83,9 @@ async def start():
             bot,
             allowed_updates=dp.resolve_used_update_types(),
             users=db_users,
-            subscription=db_subscription
+            subscription=db_subscription,
+            post=db_post,
+            admins=db_admins
         )
     except Exception as ex:
         logging.error(f'[!!! Exception] - {ex}', exc_info=True)

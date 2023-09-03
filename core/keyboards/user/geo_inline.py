@@ -3,7 +3,7 @@ import math
 from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from geo.geo import load_countries, load_cities
+from core.utils.geo import load_countries, load_cities
 
 
 def ikb_countries(current_page: int = 0) -> InlineKeyboardMarkup:

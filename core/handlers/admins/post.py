@@ -6,21 +6,43 @@ from aiogram.types import Message, CallbackQuery
 
 from core.database.db_post import Post
 from core.keyboards.smm_keyboards import rkb_smm, rkb_smm_menu, rkb_time_button, ikb_keyboard, rkb_new_post, ikb_day, \
-    ikb_hour, ikb_minute
-from core.utils.chat_cleaner import del_message, message_list
+    ikb_hour, ikb_minute, rkb_cancel, rkb_media_time_button
+from core.utils.chat_cleaner import del_message, message_list, del_callback
 from core.utils.states import SmmState
 
 
 router = Router()
 
 
-@router.message(F.text == '📨 Newsletter')
+@router.message(F.text == '🔙 Back', SmmState.post_id)
+@router.message(F.text == '🔙 Back', SmmState.text)
+@router.message(F.text == '🔙 Back', SmmState.photo)
+@router.message(F.text == '🔙 Back', SmmState.video)
+@router.message(F.text == '🔙 Back', SmmState.circle)
+@router.message(F.text == '🚫 Cancel')
+@router.message(F.text == '📨 Mailing')
 async def cmd_smm(message: Message, bot: Bot, state: FSMContext) -> None:
     await del_message(bot, message, message_list)
 
     await state.clear()
 
-    await message.answer(
+    msg = await message.answer(
+        text="""
+        Select message type:
+        """,
+        reply_markup=rkb_smm()
+    )
+    message_list.append(msg.message_id)
+    await state.set_state(SmmState.post)
+
+
+@router.callback_query(F.data == 'smm')
+async def cmd_smm(callback: CallbackQuery, state: FSMContext) -> None:
+    await callback.message.delete()
+
+    await state.clear()
+
+    await callback.message.answer(
         text="""
         Select message type:
         """,
@@ -34,7 +56,7 @@ async def new_post(message: Message, bot: Bot, state: FSMContext) -> None:
     await state.clear()
 
     category = message.text
-    await state.update_data(category=category)
+    await state.update_data(category=category, button_text=[], button_url=[])
 
     await del_message(bot, message, message_list)
 
@@ -47,7 +69,7 @@ async def new_post(message: Message, bot: Bot, state: FSMContext) -> None:
         await state.set_state(SmmState.text)
 
     elif category == '📷 Photo':
-        text = 'Send me a photo of the post 📷'
+        text = 'Send me a post photo 📷'
         msg = await message.answer(
             text=text,
             reply_markup=rkb_smm_menu()
@@ -80,10 +102,12 @@ async def get_text(message: Message, bot: Bot, state: FSMContext) -> None:
     await del_message(bot, message, message_list)
 
     text = f'{text}\n\nText saved'
-    await message.answer(
+    msg = await message.answer(
         text=text,
         reply_markup=rkb_time_button()
     )
+    message_list.append(msg.message_id)
+    await state.set_state(SmmState.time)
 
 
 @router.message(SmmState.photo)
@@ -105,7 +129,7 @@ async def get_photo(message: Message, bot: Bot, state: FSMContext) -> None:
 
     msg = await message.answer(
         text=text,
-        reply_markup=rkb_time_button()
+        reply_markup=rkb_media_time_button()
     )
     message_list.append(msg.message_id)
 
@@ -131,14 +155,26 @@ async def get_video(message: Message, bot: Bot, state: FSMContext) -> None:
 
     msg = await message.answer(
         text=text,
-        reply_markup=rkb_time_button()
+        reply_markup=rkb_media_time_button()
     )
     message_list.append(msg.message_id)
 
     await state.set_state(SmmState.media_text)
 
 
-@router.message(F.text, SmmState.media_text)
+@router.message(F.text == '💬 Add caption', SmmState.media_text)
+async def get_media_text(message: Message, bot: Bot, state: FSMContext) -> None:
+    await del_message(bot, message, message_list)
+    text = 'Send me caption of the post 💬'
+    msg = await message.answer(
+        text=text,
+        reply_markup=rkb_smm_menu()
+    )
+    message_list.append(msg.message_id)
+    await state.set_state(SmmState.get_media_text)
+
+
+@router.message(F.text, SmmState.get_media_text)
 async def get_media_text(message: Message, bot: Bot, state: FSMContext) -> None:
     caption = message.text
     smm_id = message.from_user.id
@@ -171,6 +207,7 @@ async def get_media_text(message: Message, bot: Bot, state: FSMContext) -> None:
         reply_markup=rkb_time_button()
     )
     message_list.append(msg.message_id)
+    await state.set_state(SmmState.time)
 
 
 @router.message(SmmState.circle)
@@ -192,7 +229,10 @@ async def get_circle(message: Message, bot: Bot, state: FSMContext) -> None:
     message_list.append(msg.message_id)
 
 
-@router.message(F.text == '⏱ Select time')
+@router.message(F.text == '⏱ Select time', SmmState.time)
+@router.message(F.text == '⏱ Select time', SmmState.button_url)
+@router.message(F.text == '⏱ Select time', SmmState.circle)
+@router.message(F.text == '⏱ Select time', SmmState.media_text)
 async def set_day(message: Message, bot: Bot) -> None:
     month = datetime.now().month
     year = datetime.now().year
@@ -210,10 +250,11 @@ async def set_day(message: Message, bot: Bot) -> None:
 
 
 @router.callback_query(F.data.startswith('s_month_'))
-async def set_day(callback: CallbackQuery) -> None:
+async def set_day(callback: CallbackQuery, bot: Bot) -> None:
     month = int(callback.data.split('_')[-2])
     year = int(callback.data.split('_')[-1])
 
+    await del_callback(bot, callback, message_list)
     msg = await callback.message.edit_text(
         text=f"""
         Choose <b>day</b>
@@ -289,7 +330,6 @@ async def get_time(callback: CallbackQuery, bot: Bot, state: FSMContext) -> None
             message_list.append(msg.message_id)
             return
 
-        # await state.update_data(date=formatted_date)
         await preview(smm_id, bot, state)
         return
 
@@ -308,14 +348,18 @@ async def get_time(callback: CallbackQuery, bot: Bot, state: FSMContext) -> None
         message_list.append(msg.message_id)
 
 
-@router.message(F.text == '⌨️ Add Button')
-async def set_button(message: Message, state: FSMContext) -> None:
+@router.message(F.text == '🔙 Back', SmmState.button_text)
+@router.message(F.text == '⌨️ Add button', SmmState.time)
+@router.message(F.text == '⌨️ Add button', SmmState.media_text)
+async def set_button(message: Message, bot: Bot, state: FSMContext) -> None:
+    await del_message(bot, message, message_list)
+
     msg = await message.answer(
         text=f"""
-        Send me <b>text</b> buttons
+        Send me <b>text</b> for button
         """,
         parse_mode='HTML',
-        reply_markup=rkb_smm_menu()
+        reply_markup=rkb_cancel()
     )
     message_list.append(msg.message_id)
     await state.set_state(SmmState.button_text)
@@ -326,6 +370,7 @@ async def get_b_text(message: Message, bot: Bot, state: FSMContext) -> None:
     text = message.text
     data = await state.get_data()
     button_text = data.get('button_text')
+
     if not button_text:
         button_text = []
     button_text.append(text)
@@ -335,7 +380,7 @@ async def get_b_text(message: Message, bot: Bot, state: FSMContext) -> None:
 
     msg = await message.answer(
         text=f"""
-        Send me <b>link</b> buttons
+        Send me <b>link</b> for button\nIn format https://.... (https://t.me/none)
         """,
         parse_mode='HTML',
         reply_markup=rkb_smm_menu()
@@ -350,6 +395,7 @@ async def get_b_url(message: Message, bot: Bot, state: FSMContext) -> None:
     data = await state.get_data()
     button_url = data.get('button_url')
     button_text = data.get('button_text')
+
     if not button_url:
         button_url = []
     button_url.append(text)
@@ -371,6 +417,7 @@ async def get_b_url(message: Message, bot: Bot, state: FSMContext) -> None:
         reply_markup=rkb_time_button()
     )
     message_list.append(msg.message_id)
+    await state.set_state(SmmState.time)
 
 
 async def preview(smm_id: int, bot: Bot, state: FSMContext) -> None:
@@ -415,17 +462,20 @@ async def preview(smm_id: int, bot: Bot, state: FSMContext) -> None:
             reply_markup=ikb_keyboard(button_text, button_url)
         )
 
-    await bot.send_message(
+    msg = await bot.send_message(
         chat_id=smm_id,
         text=f"""
         Send time: {day}.{month}.{year} {hour}:{minute}
         """,
         reply_markup=rkb_new_post()
     )
+    message_list.append(msg.message_id)
+
+    await state.set_state(SmmState.send)
 
 
-@router.callback_query(F.data.endswith('_send'))
-async def send(callback: CallbackQuery, post: Post, state: FSMContext) -> None:
+@router.message(F.text == '📨 Send', SmmState.send)
+async def send(message: Message, bot: Bot, post: Post, state: FSMContext) -> None:
 
     data = await state.get_data()
     text = data.get('text')
@@ -447,7 +497,9 @@ async def send(callback: CallbackQuery, post: Post, state: FSMContext) -> None:
     post_id = await post.add_row(text, photo, video, caption, circle,
                                  formatted_datetime, button_text, button_url)
 
-    await callback.message.edit_text(
+    await del_message(bot, message, message_list)
+
+    await message.answer(
         text=f"""
         Post №{post_id} scheduled for {day}.{month}.{year} {hour}:{minute}
         """
@@ -455,12 +507,14 @@ async def send(callback: CallbackQuery, post: Post, state: FSMContext) -> None:
 
     await state.clear()
 
-    await callback.message.answer(
+    msg = await message.answer(
         text=f"""
-        Main menu
+        Select message type:
         """,
         reply_markup=rkb_smm()
     )
+    message_list.append(msg.message_id)
+    await state.set_state(SmmState.post)
 
 
 @router.callback_query(F.data == '-')

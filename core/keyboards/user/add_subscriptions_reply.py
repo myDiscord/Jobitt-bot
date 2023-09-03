@@ -13,7 +13,7 @@ def rkb_type() -> ReplyKeyboardMarkup:
     builder.button(text='📖 Main menu')
 
     builder.adjust(* [2] * n, 1)
-    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
 
 
 def rkb_technologies(technologies) -> ReplyKeyboardMarkup:
@@ -23,10 +23,11 @@ def rkb_technologies(technologies) -> ReplyKeyboardMarkup:
     for button in technologies:
         builder.button(text=f'{button}')
 
+    builder.button(text='✅ Confirm')
     builder.button(text='🔙 Back')
     builder.button(text='📖 Main menu')
 
-    builder.adjust(* [2] * n, 2)
+    builder.adjust(* [2] * n, 1, 2)
     return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
 
 
@@ -43,7 +44,7 @@ def rkb_experience() -> ReplyKeyboardMarkup:
     builder.button(text='📖 Main menu')
 
     builder.adjust(*[2] * n, 2)
-    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
 
 
 def rkb_salary() -> ReplyKeyboardMarkup:
@@ -53,7 +54,7 @@ def rkb_salary() -> ReplyKeyboardMarkup:
     builder.button(text='📖 Main menu')
 
     builder.adjust(2)
-    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
 
 
 def rkb_english_lvl() -> ReplyKeyboardMarkup:
@@ -70,4 +71,4 @@ def rkb_english_lvl() -> ReplyKeyboardMarkup:
     builder.button(text='📖 Main menu')
 
     builder.adjust(*[2] * n, 2)
-    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=True)

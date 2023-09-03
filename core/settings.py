@@ -5,6 +5,7 @@ from dataclasses import dataclass
 @dataclass
 class Bots:
     bot_token: str
+    source: str
 
 
 @dataclass
@@ -28,7 +29,8 @@ def get_settings(path: str):
 
     return Settings(
         bots=Bots(
-            bot_token=env.str('TOKEN')
+            bot_token=env.str('TOKEN'),
+            source=env.str('SOURCE')
         ),
         db=Db(
             db_user=env.str('DB_USER'),

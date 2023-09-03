@@ -2,10 +2,10 @@ from datetime import datetime
 
 from aiogram import Bot, Router, F
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message
 
 from core.database.db_post import Post
-from core.keyboards.smm_keyboards import ikb_smm_menu
+from core.keyboards.smm_keyboards import rkb_cancel, rkb_smm
 from core.utils.chat_cleaner import del_message, message_list
 from core.utils.states import SmmState
 
@@ -13,15 +13,17 @@ from core.utils.states import SmmState
 router = Router()
 
 
-@router.callback_query(F.data.startswith('smm_cancel'))
-async def cancel(callback: CallbackQuery, state: FSMContext) -> None:
+@router.message(F.text == '❌📨 Cancel')
+async def cancel(message: Message, bot: Bot, state: FSMContext) -> None:
     await state.clear()
 
-    msg = await callback.message.edit_text(
+    await del_message(bot, message, message_list)
+
+    msg = await message.answer(
         text="""
         Enter the post id
         """,
-        reply_markup=ikb_smm_menu()
+        reply_markup=rkb_cancel()
     )
     message_list.append(msg.message_id)
     await state.set_state(SmmState.post_id)
@@ -40,7 +42,7 @@ async def get_id(message: Message, bot: Bot, post: Post) -> None:
                 text=f"""
                 Post №{post_id} deleted
                 """,
-                reply_markup=ikb_smm_menu()
+                reply_markup=rkb_smm()
             )
             return
     except Exception as e:
@@ -52,5 +54,5 @@ async def get_id(message: Message, bot: Bot, post: Post) -> None:
         text=f"""
         Error, post №{post_id} not deleted
         """,
-        reply_markup=ikb_smm_menu()
+        reply_markup=rkb_smm()
     )

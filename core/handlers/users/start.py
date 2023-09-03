@@ -1,7 +1,7 @@
 from aiogram import Router, Bot, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 
 from core.database.db_users import Users
 from core.keyboards.user.menu_reply import rkb_start, rkb_menu
@@ -25,7 +25,7 @@ Please register to get started.
         )
 
     else:
-        await del_message(bot, message, message_list)
+        # await del_message(bot, message, message_list)
 
         msg = await message.answer(
             text="""
@@ -33,5 +33,21 @@ Please register to get started.
             """,
             reply_markup=rkb_menu()
         )
+
+    message_list.append(msg.message_id)
+
+
+@router.callback_query(F.data == 'start')
+async def cmd_start(callback: CallbackQuery, bot: Bot, users: Users, state: FSMContext) -> None:
+    await state.clear()
+
+    await callback.message.delete()
+
+    msg = await callback.message.answer(
+        text="""
+        Main menu
+        """,
+        reply_markup=rkb_menu()
+    )
 
     message_list.append(msg.message_id)

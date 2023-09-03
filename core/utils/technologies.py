@@ -1,1 +1,0 @@
-tech = ['Django', 'Analog Devices', 'JS', 'Android TV', 'Front-End', 'Linux', 'Team Lead', 'SysAdmin', 'Kotlin', 'Azure', 'C++', 'Product Manager', 'Embedded', 'Elastic Search', 'Adobe Audition', 'WordPress', 'Elementor Pro', 'Data Science', 'Business analyst', 'C', 'Java', 'Security Engineer', 'Technical writing']

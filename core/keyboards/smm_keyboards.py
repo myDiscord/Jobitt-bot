@@ -13,30 +13,53 @@ def rkb_smm() -> ReplyKeyboardMarkup:
     builder.button(text='⚪️ Video note')
     builder.button(text='📷 Photo')
 
-    builder.button(text='❌ Cancellation of sending')
+    builder.button(text='❌📨 Cancel')
+    builder.button(text='🏠 Main menu')
 
-    builder.adjust(2, 2, 1)
-    return builder.as_markup()
+    builder.adjust(2, 2, 2)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
+
+
+def rkb_cancel() -> ReplyKeyboardMarkup:
+    builder = ReplyKeyboardBuilder()
+
+    builder.button(text='🚫 Cancel')
+
+    builder.adjust(1)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
 
 
 def rkb_smm_menu() -> ReplyKeyboardMarkup:
     builder = ReplyKeyboardBuilder()
 
     builder.button(text='🔙 Back')
+    builder.button(text='🚫 Cancel')
 
-    builder.adjust(1)
-    return builder.as_markup()
+    builder.adjust(2)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
 
 
 def rkb_time_button() -> ReplyKeyboardMarkup:
     builder = ReplyKeyboardBuilder()
 
     builder.button(text='⏱ Select time')
-    builder.button(text='⌨️ Add Button')
+    builder.button(text='⌨️ Add button')
     builder.button(text='🚫 Cancel')
 
     builder.adjust(1, 1, 1)
-    return builder.as_markup()
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
+
+
+def rkb_media_time_button() -> ReplyKeyboardMarkup:
+    builder = ReplyKeyboardBuilder()
+
+    builder.button(text='⏱ Select time')
+    builder.button(text='💬 Add caption')
+    builder.button(text='⌨️ Add button')
+    builder.button(text='🚫 Cancel')
+
+    builder.adjust(1, 1, 1, 1)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
 
 
 def ikb_day(month, year) -> InlineKeyboardMarkup:
@@ -87,9 +110,9 @@ def ikb_hour() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
 
     for hour in range(24):
-        builder.button(text=f'{hour}')
+        builder.button(text=f'{hour}', callback_data=f's_hour_{hour}')
 
-    builder.button(text='🚫 Cancel')
+    builder.button(text='🚫 Cancel', callback_data='smm')
 
     builder.adjust(* [6] * 4, 1)
     return builder.as_markup()
@@ -98,12 +121,12 @@ def ikb_hour() -> InlineKeyboardMarkup:
 def ikb_minute() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
 
-    for minute in range(60):
-        builder.button(text=f'{minute}')
+    for minute in [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]:
+        builder.button(text=f'{minute}', callback_data=f's_minute_{minute}')
 
-    builder.button(text='🚫 Cancel')
+    builder.button(text='🚫 Cancel', callback_data='smm')
 
-    builder.adjust(*[6] * 10, 1)
+    builder.adjust(*[6] * 2, 1)
     return builder.as_markup()
 
 
@@ -125,4 +148,4 @@ def rkb_new_post() -> ReplyKeyboardMarkup:
     builder.button(text='🚫 Cancel')
 
     builder.adjust(2)
-    return builder.as_markup()
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)

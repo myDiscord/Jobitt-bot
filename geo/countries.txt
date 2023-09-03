@@ -83,7 +83,6 @@ BS	BHS	044	BF	Bahamas	Nassau	13940	385640	NA	.bs	BSD	Dollar	+1-242			en-BS	35728
 BT	BTN	064	BT	Bhutan	Thimphu	47000	754394	AS	.bt	BTN	Ngultrum	975			dz	1252634	CN,IN
 BV	BVT	074	BV	Bouvet Island		49	0	AN	.bv	NOK	Krone					3371123
 BW	BWA	072	BC	Botswana	Gaborone	600370	2254126	AF	.bw	BWP	Pula	267			en-BW,tn-BW	933860	ZW,ZA,NA
-BY	BLR	112	BO	Belarus	Minsk	207600	9485386	EU	.by	BYN	Belarusian ruble	375	######	^(\d{6})$	be,ru	630336	PL,LT,UA,RU,LV
 BZ	BLZ	084	BH	Belize	Belmopan	22966	383071	NA	.bz	BZD	Dollar	501			en-BZ,es	3582678	GT,MX
 CA	CAN	124	CA	Canada	Ottawa	9984670	37058856	NA	.ca	CAD	Dollar	1	@#@ #@#	^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ]) ?(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$ 	en-CA,fr-CA,iu	6251999	US
 CC	CCK	166	CK	Cocos Islands	West Island	14	628	AS	.cc	AUD	Dollar	61			ms-CC,en	1547376
@@ -239,7 +238,6 @@ QA	QAT	634	QA	Qatar	Doha	11437	2781677	AS	.qa	QAR	Rial	974			ar-QA,es	289688	SA
 RE	REU	638	RE	Reunion	Saint-Denis	2517	776948	AF	.re	EUR	Euro	262	#####	^((97|98)(4|7|8)\d{2})$	fr-RE	935317
 RO	ROU	642	RO	Romania	Bucharest	237500	19473936	EU	.ro	RON	Leu	40	######	^(\d{6})$	ro,hu,rom	798549	MD,HU,UA,BG,RS
 RS	SRB	688	RI	Serbia	Belgrade	88361	6982084	EU	.rs	RSD	Dinar	381	######	^(\d{6})$	sr,hu,bs,rom	6290252	AL,HU,MK,RO,HR,BA,BG,ME,XK
-RU	RUS	643	RS	Russia	Moscow	17100000	144478050	EU	.ru	RUB	Ruble	7	######	^(\d{6})$	ru,tt,xal,cau,ady,kv,ce,tyv,cv,udm,tut,mns,bua,myv,mdf,chm,ba,inh,kbd,krc,av,sah,nog	2017370	GE,CN,BY,UA,KZ,LV,PL,EE,LT,FI,MN,NO,AZ,KP
 RW	RWA	646	RW	Rwanda	Kigali	26338	12301939	AF	.rw	RWF	Franc	250			rw,en-RW,fr-RW,sw	49518	TZ,CD,BI,UG
 SA	SAU	682	SA	Saudi Arabia	Riyadh	1960582	33699947	AS	.sa	SAR	Rial	966	#####	^(\d{5})$	ar-SA	102358	QA,OM,IQ,YE,JO,AE,KW
 SB	SLB	090	BP	Solomon Islands	Honiara	28450	652858	OC	.sb	SBD	Dollar	677			en-SB,tpi	2103350

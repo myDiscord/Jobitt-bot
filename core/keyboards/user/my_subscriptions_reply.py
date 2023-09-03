@@ -1,5 +1,25 @@
-from aiogram.types import ReplyKeyboardMarkup
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
+from aiogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup
+from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
+
+
+def ikb_my_subscriptions(data) -> InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+
+    n = len(data)
+    for button in data:
+        text = ''
+        if button['country']:
+            text += f" - {button['country']}"
+        if button['city']:
+            text += f" - {button['city']}"
+        tech = ', '.join(button["technologies"])
+        builder.button(text=f'{button["job_type"]} - {tech}{text}',
+                       callback_data=f'u_tech_{button["id"]}')
+
+    builder.button(text='📖 Main menu', callback_data='start')
+
+    builder.adjust(*[1] * n, 1)
+    return builder.as_markup()
 
 
 def rkb_my_subscriptions(data) -> ReplyKeyboardMarkup:

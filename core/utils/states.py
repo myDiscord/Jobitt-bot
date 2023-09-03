@@ -23,6 +23,13 @@ class AdminState(StatesGroup):
     get_password = State()
     new_password = State()
 
+    admin_menu = State()
+
+    statistic = State()
+
+    technology = State()
+    technology_time = State()
+
 
 class SmmState(StatesGroup):
 
@@ -33,6 +40,7 @@ class SmmState(StatesGroup):
     photo = State()
     video = State()
     media_text = State()
+    get_media_text = State()
 
     circle = State()
 
@@ -40,5 +48,6 @@ class SmmState(StatesGroup):
     button_url = State()
 
     time = State()
+    send = State()
 
     post_id = State()

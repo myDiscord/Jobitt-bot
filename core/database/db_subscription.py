@@ -8,16 +8,13 @@ class Subscription:
     async def create_subscription_table_if_not_exists(self) -> None:
         await self.connector.execute("""
             CREATE TABLE IF NOT EXISTS subscription (
-            
                 id SERIAL PRIMARY KEY,
                 telegram_id BIGINT,
-                
                 job_type TEXT,
-                technologies TEXT,
+                technologies TEXT[],
                 experience TEXT,
                 salary_rate TEXT,
                 english_lvl TEXT,
-                
                 country TEXT,
                 city TEXT
             )
@@ -43,7 +40,7 @@ class Subscription:
 
         return query
 
-    async def update_subscription(self, subscription_id: int, job_type: str, technologies: str,
+    async def update_subscription(self, subscription_id: int, job_type: str, technologies: list,
                                   experience: str, salary_rate: str, english_lvl: str, country: str, city: str) -> None:
         await self.connector.execute("""
             UPDATE subscription
@@ -68,5 +65,43 @@ class Subscription:
         for subscription in query:
             subscription_dict = dict(subscription)
             result.append(subscription_dict)
+
+        return result
+
+    async def get_subscription_by_id(self, subscription_id: int):
+        async with self.connector.acquire() as connection:
+            return await connection.fetchrow("""
+                SELECT * 
+                FROM subscription
+                WHERE id = $1
+            """, subscription_id)
+
+    async def get_all_subscriptions(self):
+        async with self.connector.acquire() as connection:
+            query = await connection.fetch("""
+                SELECT * 
+                FROM subscription
+            """)
+            return [dict(record) for record in query]
+
+    # admin statistic
+    async def get_statistic_by_category(self, category: str) -> dict:
+        query = f"""
+            SELECT {category}, COUNT(*) as total_count
+            FROM subscription
+            GROUP BY {category}
+        """
+        rows = await self.connector.fetch(query)
+
+        result = {
+            "total": 0,
+            "details": {}
+        }
+
+        for row in rows:
+            category_value = row[category]
+            count = row['total_count']
+            result["details"][category_value] = count
+            result["total"] += count
 
         return result

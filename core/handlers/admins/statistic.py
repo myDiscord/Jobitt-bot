@@ -1,16 +1,19 @@
 from datetime import datetime
 
 from aiogram import Router, F, Bot
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
 from core.database.db_users import Users
-from core.keyboards.admin_keyboards import rkb_admin, rkb_calendar, generate_calendar_keyboard, rkb_back
+from core.keyboards.admin_keyboards import generate_calendar_keyboard, rkb_back
 from core.utils.chat_cleaner import del_message, message_list
+from core.utils.states import AdminState
 
 router = Router()
 
 
-@router.message(F.text == '📊 Statistics')
+@router.message(F.text == '🔙 Back', AdminState.statistic)
+@router.message(F.text == '📆 Statistics')
 async def cmd_statistic(message: Message, bot: Bot, users: Users) -> None:
     total, today_count, week, month, year = await users.get_statistics()
 
@@ -56,7 +59,7 @@ Total: {total}
 
 
 @router.callback_query(F.data.startswith('day_'))
-async def cmd_statistic(callback: CallbackQuery, users: Users) -> None:
+async def cmd_statistic(callback: CallbackQuery, users: Users, state: FSMContext) -> None:
     c_day = int(callback.data.split('_')[-3])
     c_month = int(callback.data.split('_')[-2])
     c_year = int(callback.data.split('_')[-1])
@@ -73,6 +76,7 @@ async def cmd_statistic(callback: CallbackQuery, users: Users) -> None:
         reply_markup=rkb_back()
     )
     message_list.append(msg.message_id)
+    await state.set_state(AdminState.statistic)
 
 
 @router.callback_query(F.data == '-')

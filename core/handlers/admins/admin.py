@@ -1,7 +1,7 @@
 from aiogram import Router, F, Bot
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 
 from core.database.db_admins import Admins
 from core.keyboards.admin_keyboards import rkb_admin, rkb_admin_menu
@@ -12,8 +12,7 @@ from core.utils.states import AdminState
 router = Router()
 
 
-@router.message(F.text == '🏠 Main menu')
-@router.message(Command(commands='addmin'))
+@router.message(Command(commands='admin'))
 async def cmd_start(message: Message, state: FSMContext) -> None:
     await state.clear()
 
@@ -24,6 +23,38 @@ async def cmd_start(message: Message, state: FSMContext) -> None:
     )
     message_list.append(msg.message_id)
     await state.set_state(AdminState.get_password)
+
+
+@router.message(F.text == '🏠 Main menu')
+async def cmd_start(message: Message, bot: Bot, state: FSMContext) -> None:
+    await state.clear()
+
+    await del_message(bot, message, message_list)
+
+    msg = await message.answer(
+        text="""
+        Administrator Menu
+        """,
+        reply_markup=rkb_admin()
+    )
+    message_list.append(msg.message_id)
+    await state.set_state(AdminState.admin_menu)
+
+
+@router.callback_query(F.data == 'a_admin')
+async def cmd_start(callback: CallbackQuery, state: FSMContext) -> None:
+    await state.clear()
+
+    await callback.message.delete()
+
+    msg = await callback.message.answer(
+        text="""
+        Administrator Menu
+        """,
+        reply_markup=rkb_admin()
+    )
+    message_list.append(msg.message_id)
+    await state.set_state(AdminState.admin_menu)
 
 
 @router.message(F.text, AdminState.get_password)
@@ -39,7 +70,7 @@ async def get_password(message: Message, bot: Bot, admins: Admins, state: FSMCon
             """,
             reply_markup=rkb_admin()
         )
-        await state.clear()
+        await state.set_state(AdminState.admin_menu)
 
     else:
         msg = await message.answer(
@@ -50,9 +81,9 @@ async def get_password(message: Message, bot: Bot, admins: Admins, state: FSMCon
     message_list.append(msg.message_id)
 
 
-@router.message(Command(commands='ch4nge_pass'))
-async def cmd_start(message: Message, state: FSMContext) -> None:
-    await state.clear()
+@router.message(F.text == '🔑 Change password', AdminState.admin_menu)
+async def cmd_start(message: Message, bot: Bot, state: FSMContext) -> None:
+    await del_message(bot, message, message_list)
 
     msg = await message.answer(
         text="""
@@ -78,4 +109,5 @@ async def get_password(message: Message, bot: Bot, admins: Admins, state: FSMCon
         reply_markup=rkb_admin()
     )
     message_list.append(msg.message_id)
-    await state.clear()
+
+    await state.set_state(AdminState.admin_menu)

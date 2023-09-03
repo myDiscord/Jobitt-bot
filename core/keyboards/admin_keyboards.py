@@ -7,11 +7,17 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 def rkb_admin() -> ReplyKeyboardMarkup:
     builder = ReplyKeyboardBuilder()
 
-    builder.button(text='📨 Newsletter')
-    builder.button(text='📊 Statistics')
+    builder.button(text='📨 Mailing')
+    builder.button(text='📆 Statistics')
 
-    builder.adjust(1, 1, 1, 1)
-    return builder.as_markup()
+    builder.button(text='📊 Interests')
+    builder.button(text='💾 Download')
+
+    builder.button(text='🔑 Change password')
+    builder.button(text='🎚 Publications settings')
+
+    builder.adjust(2, 2, 2)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
 
 
 def rkb_admin_menu() -> ReplyKeyboardMarkup:
@@ -20,7 +26,7 @@ def rkb_admin_menu() -> ReplyKeyboardMarkup:
     builder.button(text='🏠 Main menu')
 
     builder.adjust(1)
-    return builder.as_markup()
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
 
 
 def rkb_back() -> ReplyKeyboardMarkup:
@@ -29,7 +35,7 @@ def rkb_back() -> ReplyKeyboardMarkup:
     builder.button(text='🔙 Back')
 
     builder.adjust(1)
-    return builder.as_markup()
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
 
 
 # statistic
@@ -43,7 +49,7 @@ def rkb_calendar() -> ReplyKeyboardMarkup:
     builder.button(text='🚫 Cancel', callback_data='cancel')
 
     builder.adjust(7, 7, 7, 7)
-    return builder.as_markup()
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
 
 
 def generate_calendar_keyboard(month, year) -> InlineKeyboardMarkup:
@@ -83,7 +89,21 @@ def generate_calendar_keyboard(month, year) -> InlineKeyboardMarkup:
         builder.button(text='➡️ next', callback_data=f'month_{1}_{year + 1}')
     else:
         builder.button(text='➡️ next', callback_data=f'month_{month + 1}_{year}')
-    builder.button(text='📖 Main menu', callback_data='a_admin')
+    builder.button(text='🏠 Main menu', callback_data='a_admin')
 
     builder.adjust(1, * [7] * n, 2, 2)
     return builder.as_markup()
+
+
+def rkb_technologies(technologies) -> ReplyKeyboardMarkup:
+    builder = ReplyKeyboardBuilder()
+
+    builder.button(text='🏠 Main menu')
+    builder.button(text='✅ Unlock all')
+
+    n = len(technologies)
+    for button in technologies:
+        builder.button(text=f'{button}')
+
+    builder.adjust(2, * [2] * n)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
