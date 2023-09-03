@@ -67,68 +67,70 @@ async def mailing(telegram_id: int, data_dict: dict, bot: Bot) -> None:
 
 
 async def check_for_mailing(bot: Bot, subscription: Subscription, admins: Admins) -> None:
-    last_id = await admins.get_last_processed_data()
-    with open('sources/main.json', 'r', encoding='utf-8') as file:
-        data = json.load(file)
-    await admins.update_last_processed_data(data[0]['created_at'])
+    block = await admins.check_block()
+    if not block:
+        last_id = await admins.get_last_processed_data()
+        with open('sources/main.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+        await admins.update_last_processed_data(data[0]['created_at'])
 
-    hold = await admins.get_technologies()
+        hold = await admins.get_technologies()
 
-    is_type = {
-        'неполная занятость': 'Part time',
-        'полная занятость': 'Full time',
-        'повний робочий день': 'Full time'
-    }
+        is_type = {
+            'неполная занятость': 'Part time',
+            'полная занятость': 'Full time',
+            'Повний робочий день': 'Full time'
+        }
 
-    for row in data:
-        if row['created_at'] == last_id:
-            await asyncio.sleep(60 * 1)
-            await check_for_mailing(bot, subscription, admins)
+        for row in data:
+            if row['created_at'] == last_id:
+                await asyncio.sleep(60 * 1)
+                await check_for_mailing(bot, subscription, admins)
 
-        keywords = None
-        keyword = row['keywords']
-        if '/' in keyword:
-            keywords = keyword.split('/')
-        elif ' / ' in keyword:
-            keywords = keyword.split(' / ')
-        if keywords:
-            for keyword in keywords:
-                if keyword in hold:
-                    continue
-        else:
-            if keyword in hold:
-                continue
-
-        all_subscriptions = await subscription.get_all_subscriptions()
-        for user in all_subscriptions:
+            keywords = None
+            keyword = row['keywords']
+            if '/' in keyword:
+                keywords = keyword.split('/')
+            elif ' / ' in keyword:
+                keywords = keyword.split(' / ')
             if keywords:
                 for keyword in keywords:
+                    if keyword in hold:
+                        continue
+            else:
+                if keyword in hold:
+                    continue
+
+            all_subscriptions = await subscription.get_all_subscriptions()
+            for user in all_subscriptions:
+                if keywords:
+                    for keyword in keywords:
+                        if keyword not in user['technologies']:
+                            continue
+                    if user['city']:
+                        if user['city'] != row['address_eng']:
+                            continue
+                    if row['salary'] and row['salary'].isdigit():
+                        if user['salary_rate'] < row['salary']:
+                            continue
+                    if row['work_type']:
+                        if user['job_type'] != is_type[row['work_type']]:
+                            continue
+
+                else:
                     if keyword not in user['technologies']:
                         continue
-                if user['city']:
-                    if user['city'] != row['address_eng']:
-                        continue
-                if row['salary'] and row['salary'].isdigit():
-                    if user['salary_rate'] < row['salary']:
-                        continue
-                if row['work_type']:
-                    if user['job_type'] != is_type[row['work_type'].lower()]:
-                        continue
+                    if user['city']:
+                        if user['city'] != row['address_eng']:
+                            continue
+                    if row['salary'] and row['salary'].isdigit():
+                        if user['salary_rate'] < row['salary']:
+                            continue
+                    if row['work_type']:
+                        if user['job_type'] != is_type[row['work_type']].lower:
+                            continue
 
-            else:
-                if keyword not in user['technologies']:
-                    continue
-                if user['city']:
-                    if user['city'] != row['address_eng']:
-                        continue
-                if row['salary'] and row['salary'].isdigit():
-                    if user['salary_rate'] < row['salary']:
-                        continue
-                if row['work_type']:
-                    if user['job_type'] != is_type[row['work_type']]:
-                        continue
-
-                await mailing(user['telegram_id'], row, bot)
+                    await mailing(user['telegram_id'], row, bot)
 
     await asyncio.sleep(60 * 1)
     await check_for_mailing(bot, subscription, admins)

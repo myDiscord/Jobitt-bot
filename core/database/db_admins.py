@@ -11,7 +11,8 @@ class Admins:
                 password TEXT,
                 channel_id BIGINT,
                 last_processed_id TEXT,
-                technologies TEXT[]
+                technologies TEXT[],
+                block BOOL DEFAULT FALSE
             )
         """)
 
@@ -74,5 +75,17 @@ class Admins:
     async def remove_all_technologies(self):
         await self.connector.execute("""
             UPDATE admins
-            SET technologies = array[]::text[]
+            SET technologies = ARRAY[]::TEXT[], block = FALSE
+        """)
+
+    async def block_all_technologies(self):
+        await self.connector.execute("""
+            UPDATE admins
+            SET block = TRUE
+        """)
+
+    async def check_block(self):
+        return await self.connector.fetchval("""
+            SELECT block 
+            FROM admins;
         """)

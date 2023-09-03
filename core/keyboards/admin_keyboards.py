@@ -98,12 +98,13 @@ def generate_calendar_keyboard(month, year) -> InlineKeyboardMarkup:
 def rkb_technologies(technologies) -> ReplyKeyboardMarkup:
     builder = ReplyKeyboardBuilder()
 
-    builder.button(text='🏠 Main menu')
     builder.button(text='✅ Unlock all')
+    builder.button(text='🚫 Block all')
+    builder.button(text='🏠 Main menu')
 
     n = len(technologies)
     for button in technologies:
         builder.button(text=f'{button}')
 
-    builder.adjust(2, * [2] * n)
+    builder.adjust(2, 1, * [2] * n)
     return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)

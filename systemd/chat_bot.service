@@ -6,8 +6,8 @@ After=network.target
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/root/my_bots/chat_bot
-ExecStart=/root/my_bots/chat_bot/venv/bin/python3 /root/my_bots/chat_bot/main.py
+WorkingDirectory=/root/chat_bot/Jobitt-bot
+ExecStart=/root/chat_bot/Jobitt-bot/venv/bin/python3 /root/chat_bot/Jobitt-bot/main.py
 RestartSec=10
 Restart=always
 

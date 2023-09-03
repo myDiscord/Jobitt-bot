@@ -31,6 +31,23 @@ async def remove_technology(user_id: int, technology: str, hours: int, bot: Bot,
             log_file.write(error_message + '\n')
 
 
+@router.message(F.text == '🚫 Block all')
+async def settings(message: Message, bot: Bot, admins: Admins, state: FSMContext) -> None:
+    await admins.block_all_technologies()
+
+    await del_message(bot, message, message_list)
+
+    msg = await message.answer(
+        text=f"""
+        All technologies <b>added</b> to hold list
+        """,
+        parse_mode='HTML',
+        reply_markup=rkb_technologies(sorted(tech_list))
+    )
+    message_list.append(msg.message_id)
+    await state.set_state(AdminState.technology)
+
+
 @router.message(F.text == '✅ Unlock all')
 async def settings(message: Message, bot: Bot, admins: Admins) -> None:
     await admins.remove_all_technologies()
@@ -59,8 +76,8 @@ async def settings(message: Message, bot: Bot, admins: Admins, state: FSMContext
 
     msg = await message.answer(
         text=f"""
-            Hold list:{text}
-            """
+        Hold list:{text}
+        """
     )
     message_list.append(msg.message_id)
     msg = await message.answer(
