@@ -116,6 +116,9 @@ async def check_for_mailing(bot: Bot, subscription: Subscription, admins: Admins
                     if row['work_type']:
                         if user['job_type'] != is_type[row['work_type']]:
                             continue
+                    if row['is_remote']:
+                        if user['job_type'] != 'Remote work':
+                            continue
 
                 else:
                     if keyword not in user['technologies']:
@@ -128,6 +131,9 @@ async def check_for_mailing(bot: Bot, subscription: Subscription, admins: Admins
                             continue
                     if row['work_type']:
                         if user['job_type'] != is_type[row['work_type']].lower:
+                            continue
+                    if row['is_remote']:
+                        if user['job_type'] != 'Remote work':
                             continue
 
                     await mailing(user['telegram_id'], row, bot)
