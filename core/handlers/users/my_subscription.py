@@ -28,6 +28,7 @@ async def my_subscription(message: Message, bot: Bot, users: Users,
 
         for sub in data:
             country, city = '', ''
+
             job_type = ', '.join(sub["job_type"])
             tech = ', '.join(sub["technologies"])
             if sub['country']:
