@@ -48,7 +48,7 @@ async def save_tech_list(tech_list):
 
 async def create_tech_list():
     while True:
-        sources = [settings.bots.sources]#, settings.bots.source_2]
+        sources = [settings.bots.source]#, settings.bots.source_2]
         keywords_list = await extract_keywords_from_sources(sources)
         tech_list = set(keywords_list)
         await save_tech_list(tech_list)

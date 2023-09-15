@@ -1045,3 +1045,17 @@ KeyError: 'Office Work'
 2023-09-15 10:17:35,071 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
 2023-09-15 10:17:35,101 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @LeonMagnum_bot id=5968452292 - 'Test_my_bot'
 2023-09-15 10:17:35,105 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-15 11:27:42,310 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-15 11:27:45,273 - [ERROR] - asyncio - (base_events.py).default_exception_handler(1765) - Task exception was never retrieved
+future: <Task finished name='Task-31' coro=<create_tech_list() done, defined at /Users/Kafka/PycharmProjects/Jobitt-bot/core/utils/technologies.py:49> exception=AttributeError("'Bots' object has no attribute 'sources'")>
+Traceback (most recent call last):
+  File "/Users/Kafka/PycharmProjects/Jobitt-bot/core/utils/technologies.py", line 51, in create_tech_list
+    sources = [settings.bots.sources]#, settings.bots.source_2]
+               ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Bots' object has no attribute 'sources'
+2023-09-15 11:27:45,447 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @LeonMagnum_bot id=5968452292 - 'Test_my_bot'
+2023-09-15 11:28:06,375 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(452) - Received SIGINT signal
+2023-09-15 11:28:06,387 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(356) - Polling stopped for bot @LeonMagnum_bot id=5968452292 - 'Test_my_bot'
+2023-09-15 11:28:06,388 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(551) - Polling stopped
+2023-09-15 11:28:16,188 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(524) - Start polling
+2023-09-15 11:28:19,533 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(340) - Run polling for bot @LeonMagnum_bot id=5968452292 - 'Test_my_bot'
