@@ -37,4 +37,4 @@ async def send_single_user_mailing(bot: Bot, telegram_id: int, subscription: dic
             continue
 
         await mailing(telegram_id, row, bot)
-        await asyncio.sleep(30)
+        await asyncio.sleep(60 * 5)
