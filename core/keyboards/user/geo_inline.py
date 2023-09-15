@@ -41,8 +41,10 @@ def ikb_countries(current_page: int = 0) -> InlineKeyboardMarkup:
 
     builder.button(text='🔙 Back', callback_data='u_back')
     builder.button(text='⏭ Skip', callback_data='u_skip')
+    builder.button(text='⏩ Cities', callback_data='u_now_city')
+    builder.button(text='✅ Confirm', callback_data='u_confirm')
 
-    builder.adjust(*[1] * n, 3, 2)
+    builder.adjust(*[1] * n, 3, 2, 2)
     return builder.as_markup()
 
 
@@ -82,6 +84,18 @@ def ikb_cities(country_code, current_page: int = 0) -> InlineKeyboardMarkup:
 
     builder.button(text='🔙 Back', callback_data='u_country')
     builder.button(text='⏭ Skip', callback_data='u_skip')
+    builder.button(text='✅ Confirm', callback_data='u_confirm')
 
-    builder.adjust(*[1] * n, 3, 2)
+    builder.adjust(*[1] * n, 3, 2, 1)
+    return builder.as_markup()
+
+
+def ikb_city() -> InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+
+    builder.button(text='🔙 Back', callback_data='u_country')
+    builder.button(text='⏭ Skip', callback_data='u_skip')
+    builder.button(text='✅ Confirm', callback_data='u_skip')
+
+    builder.adjust(2, 1)
     return builder.as_markup()

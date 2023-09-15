@@ -14,11 +14,11 @@ from core.database.db_users import Users
 from core.settings import settings
 
 from core.utils.commands import set_commands
-from core.utils.data_mailing import check_for_mailing
+from core.mailing.data_mailing import check_for_mailing
 from core.utils.db_create import check_database_exists, create_database
 from core.utils.download_data import update_json
 from core.utils.poster import bot_poster
-from core.utils.tech import create_tech_list
+from core.utils.technologies import create_tech_list
 
 from core.handlers.routers import user_router, admin_router
 

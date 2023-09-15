@@ -1,6 +1,7 @@
 TOKEN=5968452292:AAHaOwbQEkjW2vHC4o3MJCwQupJs8Lbx7Uw
 
 SOURCE='http://64.226.76.253/vacancies/'
+SOURCE_2=https://api.dev.jobitt.com/new-vacancies.json
 
 DB_HOST='localhost'
 DB_PORT=5433

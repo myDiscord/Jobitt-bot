@@ -2,19 +2,22 @@ from aiogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup
 from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 
 
-def ikb_my_subscriptions(data) -> InlineKeyboardMarkup:
+def ikb_my_subscriptions(data: dict) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
 
     n = len(data)
-    for button in data:
-        text = ''
-        if button['country']:
-            text += f" - {button['country']}"
-        if button['city']:
-            text += f" - {button['city']}"
-        tech = ', '.join(button["technologies"])
-        builder.button(text=f'{button["job_type"]} - {tech}{text}',
-                       callback_data=f'u_tech_{button["id"]}')
+    for key, value in data.items():
+        # country, city = '', ''
+        # job_type = ', '.join(button["job_type"])
+        # tech = ', '.join(button["technologies"])
+        # if button['country']:
+        #     country = ', '.join(button["country"])
+        # if button['city']:
+        #     city = ', '.join(button["city"])
+        # builder.button(text=f'{job_type} - {tech} - {country} - {city}',
+        #                callback_data=f'u_tech_{button["id"]}')
+
+        builder.button(text=f'Subscription №{key}', callback_data=f'u_tech_{value}')
 
     builder.button(text='📖 Main menu', callback_data='start')
 

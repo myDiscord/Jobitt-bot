@@ -4,6 +4,7 @@ from core.handlers.users.start import router as start
 from core.handlers.users.registration import router as registration
 from core.handlers.users.add_subscription import router as add_subscription
 from core.handlers.users.my_subscription import router as my_subscription
+from core.handlers.users.all_subscription import router as all_subscription
 
 from core.handlers.admins.admin import router as admin
 from core.handlers.admins.cancel import router as cancel
@@ -19,7 +20,8 @@ user_router.include_routers(
     start,
     registration,
     add_subscription,
-    my_subscription
+    my_subscription,
+    all_subscription
 )
 
 

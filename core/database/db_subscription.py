@@ -10,18 +10,18 @@ class Subscription:
             CREATE TABLE IF NOT EXISTS subscription (
                 id SERIAL PRIMARY KEY,
                 telegram_id BIGINT,
-                job_type TEXT,
+                job_type TEXT[],
                 technologies TEXT[],
                 experience TEXT,
                 salary_rate TEXT,
                 english_lvl TEXT,
-                country TEXT,
-                city TEXT
+                country TEXT[],
+                city TEXT[]
             )
         """)
 
-    async def create_subscription(self, telegram_id: int, job_type: str, technologies: list,
-                                  experience: str, salary_rate: str, english_lvl: str, country: str, city: str) -> int:
+    async def create_subscription(self, telegram_id: int, job_type: list, technologies: list,
+                                  experience: str, salary_rate: str, english_lvl: str, country: list, city: list) -> int:
         query = await self.connector.fetchrow("""
             INSERT INTO subscription (telegram_id, job_type, technologies, 
                 experience, salary_rate, english_lvl, country, city)
@@ -40,8 +40,8 @@ class Subscription:
 
         return query
 
-    async def update_subscription(self, subscription_id: int, job_type: str, technologies: list,
-                                  experience: str, salary_rate: str, english_lvl: str, country: str, city: str) -> None:
+    async def update_subscription(self, subscription_id: int, job_type: list, technologies: list,
+                                  experience: str, salary_rate: str, english_lvl: str, country: list, city: list) -> None:
         await self.connector.execute("""
             UPDATE subscription
             SET job_type = $2,
@@ -69,20 +69,18 @@ class Subscription:
         return result
 
     async def get_subscription_by_id(self, subscription_id: int):
-        async with self.connector.acquire() as connection:
-            return await connection.fetchrow("""
-                SELECT * 
-                FROM subscription
-                WHERE id = $1
-            """, subscription_id)
+        return await self.connector.fetchrow("""
+            SELECT * 
+            FROM subscription
+            WHERE id = $1
+        """, subscription_id)
 
     async def get_all_subscriptions(self):
-        async with self.connector.acquire() as connection:
-            query = await connection.fetch("""
-                SELECT * 
-                FROM subscription
-            """)
-            return [dict(record) for record in query]
+        query = await self.connector.fetch("""
+            SELECT * 
+            FROM subscription
+        """)
+        return [dict(record) for record in query]
 
     # admin statistic
     async def get_statistic_by_category(self, category: str) -> dict:

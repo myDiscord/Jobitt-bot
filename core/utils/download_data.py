@@ -8,10 +8,12 @@ from core.settings import settings
 
 
 async def update_json():
-    url_list = [settings.bots.source]
-    filename = "sources/main.json"
+    data = {
+        settings.bots.source: "sources/main.json",
+        settings.bots.source_2: "sources/second.json"
+    }
 
-    for url in url_list:
+    for url, filename in data.items():
         try:
             response = requests.get(url)
             response.raise_for_status()

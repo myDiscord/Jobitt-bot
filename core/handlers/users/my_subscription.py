@@ -4,7 +4,7 @@ from aiogram.types import Message, CallbackQuery
 
 from core.database.db_subscription import Subscription
 from core.database.db_users import Users
-from core.keyboards.user.menu_reply import rkb_main_menu
+from core.keyboards.user.menu_reply import rkb_main_menu, rkb_no_sub
 from core.keyboards.user.my_subscriptions_reply import ikb_my_subscriptions, rkb_subscription
 from core.utils.chat_cleaner import del_message, message_list
 from core.utils.states import UserState
@@ -22,11 +22,29 @@ async def my_subscription(message: Message, bot: Bot, users: Users,
     data = await subscription.get_subscription(subscriptions)
 
     if subscriptions:
+        result = ''
+        ids = {}
+        counter = 0
+
+        for sub in data:
+            country, city = '', ''
+            job_type = ', '.join(sub["job_type"])
+            tech = ', '.join(sub["technologies"])
+            if sub['country']:
+                country = ', '.join(sub["country"])
+            if sub['city']:
+                city = ', '.join(sub["city"])
+
+            counter += 1
+            result += f'{counter}: {job_type} - {tech} - {country} - {city}\n'
+            ids[counter] = sub["id"]
+
         msg = await message.answer(
-            text="""
+            text=f"""
             Your subscriptions:
+{result}
             """,
-            reply_markup=ikb_my_subscriptions(data)
+            reply_markup=ikb_my_subscriptions(ids)
         )
         await state.set_state(UserState.subscriptions)
 
@@ -35,7 +53,7 @@ async def my_subscription(message: Message, bot: Bot, users: Users,
             text="""
             You don't have any subscriptions yet.
             """,
-            reply_markup=rkb_main_menu()
+            reply_markup=rkb_no_sub()
         )
     message_list.append(msg.message_id)
 
@@ -55,13 +73,41 @@ async def unsubscribe(message: Message, bot: Bot, users: Users,
 
     await del_message(bot, message, message_list)
 
-    msg = await message.answer(
-        text="""
-        You have successfully unsubscribed
-        """,
-        reply_markup=ikb_my_subscriptions(data)
-    )
-    message_list.append(msg.message_id)
+    if subscriptions:
+        result = ''
+        ids = {}
+        counter = 0
+
+        for sub in data:
+            country, city = '', ''
+            job_type = ', '.join(sub["job_type"])
+            tech = ', '.join(sub["technologies"])
+            if sub['country']:
+                country = ', '.join(sub["country"])
+            if sub['city']:
+                city = ', '.join(sub["city"])
+
+            counter += 1
+            result += f'{counter}: {job_type} - {tech} - {country} - {city}\n'
+            ids[counter] = sub["id"]
+
+        await message.answer(
+            text=f"""
+            You have successfully unsubscribed
+Your subscriptions:
+{result}
+            """,
+            reply_markup=ikb_my_subscriptions(ids)
+        )
+        await state.set_state(UserState.subscriptions)
+
+    else:
+        await message.answer(
+            text="""
+            You have successfully unsubscribed
+            """,
+            reply_markup=rkb_main_menu()
+        )
 
 
 @router.callback_query(F.data.startswith('u_tech_'), UserState.subscriptions)
@@ -75,13 +121,22 @@ async def my_subscription(callback: CallbackQuery, subscription: Subscription, s
     await state.update_data(matching_id=sub_id)
 
     tech = ', '.join(data["technologies"])
+    country, city = '', ''
+    job_type = ', '.join(data["job_type"])
+    if data['country']:
+        country = ', '.join(data["country"])
+    if data['city']:
+        city = ', '.join(data["city"])
+
     msg = await callback.message.answer(
         text=f"""
-        Job type: {data['job_type']}
+        Job type: {job_type}
 Technology: {tech}
 Experience: {data['experience']}
 Salary rate: {data['salary_rate']}
 English lvl: {data['english_lvl']}
+Countries: {country}
+Cities: {city}
         """,
         reply_markup=rkb_subscription()
     )

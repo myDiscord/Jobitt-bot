@@ -8,7 +8,7 @@ def rkb_start() -> ReplyKeyboardMarkup:
     builder.button(text='✍️ Registration')
 
     builder.adjust(1)
-    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
 
 
 def rkb_main_menu() -> ReplyKeyboardMarkup:
@@ -17,7 +17,7 @@ def rkb_main_menu() -> ReplyKeyboardMarkup:
     builder.button(text='📖 Main menu')
 
     builder.adjust(1)
-    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
 
 
 def rkb_next() -> ReplyKeyboardMarkup:
@@ -27,7 +27,7 @@ def rkb_next() -> ReplyKeyboardMarkup:
     builder.button(text='📖 Main menu')
 
     builder.adjust(1, 1)
-    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
 
 
 def rkb_menu() -> ReplyKeyboardMarkup:
@@ -35,10 +35,21 @@ def rkb_menu() -> ReplyKeyboardMarkup:
 
     builder.button(text='📋 My subscriptions')
     builder.button(text='➕ Add subscription')
+    builder.button(text='👁‍🗨 All vacancies')
     # builder.button(text='👤 My account')
 
-    builder.adjust(1, 1, 1)
+    builder.adjust(1, 1, 1, 1)
     return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
+
+
+def rkb_no_sub() -> ReplyKeyboardMarkup:
+    builder = ReplyKeyboardBuilder()
+
+    builder.button(text='➕ Add subscription')
+    builder.button(text='📖 Main menu')
+
+    builder.adjust(1, 1)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
 
 
 def rkb_account() -> ReplyKeyboardMarkup:
@@ -50,4 +61,4 @@ def rkb_account() -> ReplyKeyboardMarkup:
     builder.button(text='📖 Main menu')
 
     builder.adjust(1, 1, 1, 1)
-    return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)
+    return builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
