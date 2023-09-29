@@ -15,11 +15,18 @@ job_types = {
 
 experience = {
     'Without experience': 0,
+    'without': 0,
     '0.5 years': 0.5,
+    '0.5y': 0.5,
     '1 year': 1,
+    '1y': 1,
     '1.5 years': 1.5,
+    '1.5y': 1.5,
     '2 years': 2,
-    'More than 5 years': 5
+    '2y+': 2,
+    '3y+': 3,
+    'More than 5 years': 5,
+    '5y+': 5
 }
 
 exp_source = {
@@ -33,9 +40,26 @@ exp_source = {
 
 english = {
     'Without English': 0,
+    'without': 0,
     'Beginner/Elementary': 1,
+    'beginer': 1,
+    'elementary': 1,
     'Pre-Intermediate': 2,
+    'pre-intermediate': 2,
     'Intermediate': 3,
+    'intermediate': 3,
     'Upper-Intermediate': 4,
-    'Advanced/Fluent': 5
+    'upper-intermediate': 4,
+    'Advanced/Fluent': 5,
+    'advanced': 5,
+    'fluent': 5
+}
+
+work_type = {
+    "is_full_time": 'Full time',
+    "is_part_time": 'Part time',
+    "is_remote_work": 'Remote work',
+    "is_freelance": 'Freelance',
+    "is_moving": 'Moving',
+    "is_considering_outstaff": 'Outstaff'
 }

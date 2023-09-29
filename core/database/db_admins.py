@@ -10,9 +10,12 @@ class Admins:
             CREATE TABLE IF NOT EXISTS admins (
                 password TEXT,
                 channel_id BIGINT,
-                last_processed_id TEXT,
                 technologies TEXT[],
-                block BOOL DEFAULT FALSE
+                block BOOL DEFAULT FALSE,
+                
+                first_source TEXT,
+                second_source TEXT,
+                base_source TEXT DEFAULT CURRENT_TIMESTAMP
             )
         """)
 
@@ -28,6 +31,7 @@ class Admins:
                 VALUES ($1);
             """, '123')
 
+    # password
     async def get_password(self):
         return await self.connector.fetchval("""
             SELECT password 
@@ -40,18 +44,20 @@ class Admins:
             SET password = $1;
         """, new_password)
 
-    async def get_last_processed_data(self):
-        return await self.connector.fetchval("""
-            SELECT last_processed_id 
-            FROM admins;
+    # last_date
+    async def get_last_date(self, column_name: str) -> str:
+        return await self.connector.fetchval(f"""
+            SELECT {column_name} 
+            FROM admins 
         """)
 
-    async def update_last_processed_data(self, new_processed_id: str):
-        await self.connector.execute("""
+    async def update_last_date(self, column_name: str, value: str) -> None:
+        await self.connector.execute(f"""
             UPDATE admins 
-            SET last_processed_id = $1;
-        """, new_processed_id)
+            SET {column_name} = $1 
+        """, value)
 
+    # hold
     async def get_technologies(self) -> list:
         result = await self.connector.fetchval("""
             SELECT technologies 

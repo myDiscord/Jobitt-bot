@@ -48,8 +48,9 @@ def rkb_subscription() -> ReplyKeyboardMarkup:
 
     builder.button(text='⚙️️ Edit')
     builder.button(text='✖️ Unsubscribe')
+    builder.button(text='👁‍🗨 All vacancies')
     builder.button(text='🔙 Back')
     builder.button(text='📖 Main menu')
 
-    builder.adjust(1, 1, 2)
+    builder.adjust(1, 1, 1, 2)
     return builder.as_markup(resize_keyboard=True, one_time_keyboard=False)

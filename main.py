@@ -10,6 +10,8 @@ from core.database.db_admins import Admins
 from core.database.db_post import Post
 from core.database.db_subscription import Subscription
 from core.database.db_users import Users
+from core.mailing.base_source import check_for_mailing_base
+from core.mailing.second_source import check_for_mailing_2
 
 from core.settings import settings
 
@@ -17,7 +19,7 @@ from core.utils.commands import set_commands
 from core.mailing.data_mailing import check_for_mailing
 from core.utils.db_create import check_database_exists, create_database
 from core.utils.download_data import update_json
-from core.utils.poster import bot_poster
+# from core.utils.poster import bot_poster
 from core.utils.technologies import create_tech_list
 
 from core.handlers.routers import user_router, admin_router
@@ -32,11 +34,14 @@ async def start_bot(bot: Bot, users: Users, subscription: Subscription, post: Po
     asyncio.create_task(update_json())
     asyncio.create_task(create_tech_list())
     asyncio.create_task(check_for_mailing(bot, subscription, admins))
-    asyncio.create_task(bot_poster(bot, users, post))
+    asyncio.create_task(check_for_mailing_2(bot, subscription, admins))
+    asyncio.create_task(check_for_mailing_base(bot, subscription, admins))
+
+    # asyncio.create_task(bot_poster(bot, users, post))
     # await bot.send_message(settings.bots.admin_id, text='Bot works')
 
 
-async def stop_bot(bot: Bot) -> None:
+async def stop_bot() -> None:
     # await bot.send_message(settings.bots.admin_id, text='Bot doesn't works')
     pass
 
@@ -51,8 +56,7 @@ async def create_pool():
 async def start():
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s - [%(levelname)s] - %(name)s - "
-                               "(%(filename)s).%(funcName)s(%(lineno)d) - %(message)s",
-                        handlers=[logging.FileHandler("bot_logs.txt"), logging.StreamHandler()]
+                               "(%(filename)s).%(funcName)s(%(lineno)d) - %(message)s"
                         )
 
     database_exists = await check_database_exists()

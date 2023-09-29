@@ -87,7 +87,8 @@ async def mailing(telegram_id: int, data_dict: dict, bot: Bot) -> None:
         website = ''
 
     if '/' in data_dict.get('keywords') or ' / ' in data_dict.get('keywords'):
-        keywords = f"#{data_dict['keywords'].split('/')}" if '/' in f"#{data_dict['keywords']}" else data_dict['keywords'].split(' / ')
+        keywords = f"#{data_dict['keywords'].split('/')}" \
+            if '/' in f"#{data_dict['keywords']}" else data_dict['keywords'].split(' / ')
         keywords = keywords.replace(' ', '')
         keyword = ' '.join(keywords)
     else:
@@ -129,7 +130,7 @@ async def mailing(telegram_id: int, data_dict: dict, bot: Bot) -> None:
 
 {data_dict['short_description']}
 
-#JOBITT{website}{work_type}{salary} {country} {city} {keyword}
+#JOBITT{website}{work_type}{salary} {country} {city}{keyword}
             """,
             reply_markup=ikb_url(url)
         )
@@ -146,19 +147,14 @@ async def check_for_mailing(bot: Bot, subscription: Subscription, admins: Admins
             await asyncio.sleep(60)
             continue
 
-        last_id = await admins.get_last_processed_data()
+        last_date = await admins.get_last_date('first_source')
         with open('sources/main.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
 
         for row in data:
-            date_time = datetime.fromisoformat(row['created_at'])
-            formatted_datetime = date_time.isoformat()
-            if str(formatted_datetime) == last_id:
+            if row['created_at'] == last_date:
                 await asyncio.sleep(60)
                 break
-            # if row['created_at'] == last_id:
-            #     await asyncio.sleep(60)
-            #     break
 
             try:
                 keywords = row['keywords'].split('/') if '/' in row['keywords'] else row['keywords'].split(' / ')
@@ -168,7 +164,7 @@ async def check_for_mailing(bot: Bot, subscription: Subscription, admins: Admins
 
                     if keywords and not any(keyword in user['technologies'] for keyword in keywords):
                         continue
-                    if row['salary'] and row['salary'].isdigit() and user['salary_rate'] > row['salary']:
+                    if row['salary'] and row['salary'].isdigit() and user['salary_rate'] >= row['salary']:
                         continue
 
                     if row['experience']:
@@ -179,7 +175,8 @@ async def check_for_mailing(bot: Bot, subscription: Subscription, admins: Admins
                                     continue
 
                     if row['english_level']:
-                        if row['english_level'] in english.keys() and english[user['english_lvl']] < english[row['english_level']]:
+                        if row['english_level'] in english.keys() and \
+                                english[user['english_lvl']] < english[row['english_level']]:
                             continue
                     if job_types[row['work_type']] not in user['job_type']:
                         continue
@@ -191,5 +188,6 @@ async def check_for_mailing(bot: Bot, subscription: Subscription, admins: Admins
                 with open('logs.txt', 'a') as log_file:
                     log_file.write(error_message + '\n')
 
-        await admins.update_last_processed_data(data[0]['created_at'])
+        await admins.update_last_date('first_source', data[0]['created_at'])
+
         await asyncio.sleep(60)

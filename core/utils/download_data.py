@@ -4,13 +4,11 @@ from datetime import datetime
 import requests
 import json
 
-from core.settings import settings
-
 
 async def update_json():
     data = {
-        settings.bots.source: "sources/main.json",
-        settings.bots.source_2: "sources/second.json"
+        'http://64.226.76.253/vacancies/': "sources/main.json",
+        'https://api.dev.jobitt.com/new-vacancies.json': "sources/second.json"
     }
 
     for url, filename in data.items():

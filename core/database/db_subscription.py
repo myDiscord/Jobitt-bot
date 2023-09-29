@@ -69,11 +69,15 @@ class Subscription:
         return result
 
     async def get_subscription_by_id(self, subscription_id: int):
-        return await self.connector.fetchrow("""
+        record = await self.connector.fetchrow("""
             SELECT * 
             FROM subscription
             WHERE id = $1
         """, subscription_id)
+
+        if record:
+            return dict(record)
+        return None
 
     async def get_all_subscriptions(self):
         query = await self.connector.fetch("""

@@ -28,7 +28,7 @@ async def add_subscription(message: Message, state: FSMContext) -> None:
         Please choose <b>job type</b>
         """,
         parse_mode='HTML',
-        reply_markup=ikb_type()
+        reply_markup=ikb_type([])
     )
     await state.set_state(UserState.job_type)
 
@@ -41,6 +41,7 @@ async def get_job_type(callback: CallbackQuery, state: FSMContext) -> None:
     if job == 'zero':
         await state.update_data(job_type=[])
         text = 'not selected'
+        job_type = []
 
     else:
         job_type = (await state.get_data()).get('job_type', [])
@@ -57,7 +58,7 @@ async def get_job_type(callback: CallbackQuery, state: FSMContext) -> None:
         Your <b>job types</b> - {text}
         """,
         parse_mode='HTML',
-        reply_markup=ikb_type()
+        reply_markup=ikb_type(job_type)
     )
     await state.set_state(UserState.job_type)
 
@@ -73,14 +74,30 @@ async def show_tech(callback: CallbackQuery, state: FSMContext) -> None:
         Specify the <b>technologies</b> for which you want to receive notifications.
         """,
         parse_mode='HTML',
-        reply_markup=ikb_technologies(sorted(tech_list))
+        reply_markup=ikb_technologies(sorted(tech_list), [], 0)
     )
     await state.set_state(UserState.technologies)
 
 
 @router.callback_query(F.data.startswith('u_tech±'))
 async def get_tech(callback: CallbackQuery, state: FSMContext) -> None:
+    page = int(callback.data.split('±')[1])
     tech = callback.data.split('±')[-1]
+    if tech.isdigit():
+        technologies = (await state.get_data()).get('technologies', [])
+        text = ', '.join(technologies)
+
+        tech_list = await read_tech_list()
+
+        await callback.message.edit_text(
+            text=f"""
+                Your <b>technologies</b> - {text}
+                """,
+            parse_mode='HTML',
+            reply_markup=ikb_technologies(sorted(tech_list), technologies, page)
+        )
+        return
+
     technologies = (await state.get_data()).get('technologies', [])
     if tech in technologies:
         await callback.answer('Already on the list')
@@ -98,7 +115,7 @@ async def get_tech(callback: CallbackQuery, state: FSMContext) -> None:
         Your <b>technologies</b> - {text}
         """,
         parse_mode='HTML',
-        reply_markup=ikb_technologies(sorted(tech_list))
+        reply_markup=ikb_technologies(sorted(tech_list), technologies, page)
     )
 
 
@@ -138,7 +155,7 @@ async def get_job_type(message: Message, state: FSMContext) -> None:
         Specify the <b>technologies</b> for which you want to receive notifications.
         """,
         parse_mode='HTML',
-        reply_markup=ikb_technologies(sorted(tech_list))
+        reply_markup=ikb_technologies(sorted(tech_list), [], 0)
     )
     await state.set_state(UserState.technologies)
 
@@ -491,3 +508,8 @@ async def get_country(callback: CallbackQuery, bot: Bot, users: Users,
             elif subscription_id:
                 data = await subscription.get_subscription_by_id(subscription_id)
                 await send_single_user_mailing(bot, telegram_id, data)
+
+
+@router.callback_query(F.data == '-')
+async def func_pass(callback: CallbackQuery) -> None:
+    await callback.answer('Not available')

@@ -35,7 +35,6 @@ def rkb_menu() -> ReplyKeyboardMarkup:
 
     builder.button(text='📋 My subscriptions')
     builder.button(text='➕ Add subscription')
-    builder.button(text='👁‍🗨 All vacancies')
     # builder.button(text='👤 My account')
 
     builder.adjust(1, 1, 1, 1)
