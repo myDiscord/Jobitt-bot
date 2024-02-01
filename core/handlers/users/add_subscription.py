@@ -3,6 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
 from core.database.db_admins import Admins
+from core.database.db_base import get_keywords
 from core.database.db_subscription import Subscription
 from core.database.db_users import Users
 from core.keyboards.user.geo_inline import ikb_countries, ikb_cities, ikb_city
@@ -10,10 +11,9 @@ from core.keyboards.user.add_subscriptions_reply import ikb_type, rkb_experience
     rkb_salary
 from core.keyboards.user.menu_reply import rkb_menu, rkb_no_sub
 from core.keyboards.user.my_subscriptions_reply import ikb_my_subscriptions
-from core.mailing.personal_mailing import send_single_user_mailing
+from core.keyboards.user_inline import ikb_motivator
+from core.mailing.personal import personal_mailing
 from core.utils.states import UserState
-# from core.utils.tech import tech_list
-from core.utils.technologies import read_tech_list
 
 router = Router()
 
@@ -27,7 +27,6 @@ async def add_subscription(message: Message, state: FSMContext) -> None:
         text="""
         Please choose <b>job type</b>
         """,
-        parse_mode='HTML',
         reply_markup=ikb_type([])
     )
     await state.set_state(UserState.job_type)
@@ -57,7 +56,6 @@ async def get_job_type(callback: CallbackQuery, state: FSMContext) -> None:
         text=f"""
         Your <b>job types</b> - {text}
         """,
-        parse_mode='HTML',
         reply_markup=ikb_type(job_type)
     )
     await state.set_state(UserState.job_type)
@@ -67,13 +65,12 @@ async def get_job_type(callback: CallbackQuery, state: FSMContext) -> None:
 async def show_tech(callback: CallbackQuery, state: FSMContext) -> None:
     await state.update_data(technologies=[])
 
-    tech_list = await read_tech_list()
+    tech_list = await get_keywords()
 
     await callback.message.edit_text(
         text=f"""
         Specify the <b>technologies</b> for which you want to receive notifications.
         """,
-        parse_mode='HTML',
         reply_markup=ikb_technologies(sorted(tech_list), [], 0)
     )
     await state.set_state(UserState.technologies)
@@ -87,13 +84,12 @@ async def get_tech(callback: CallbackQuery, state: FSMContext) -> None:
         technologies = (await state.get_data()).get('technologies', [])
         text = ', '.join(technologies)
 
-        tech_list = await read_tech_list()
+        tech_list = await get_keywords()
 
         await callback.message.edit_text(
             text=f"""
-                Your <b>technologies</b> - {text}
-                """,
-            parse_mode='HTML',
+            Your <b>technologies</b> - {text}
+            """,
             reply_markup=ikb_technologies(sorted(tech_list), technologies, page)
         )
         return
@@ -108,13 +104,12 @@ async def get_tech(callback: CallbackQuery, state: FSMContext) -> None:
     await state.update_data(technologies=technologies)
     text = ', '.join(technologies)
 
-    tech_list = await read_tech_list()
+    tech_list = await get_keywords()
 
     await callback.message.edit_text(
         text=f"""
         Your <b>technologies</b> - {text}
         """,
-        parse_mode='HTML',
         reply_markup=ikb_technologies(sorted(tech_list), technologies, page)
     )
 
@@ -127,7 +122,6 @@ async def show_experience(callback: CallbackQuery, state: FSMContext) -> None:
         text=f"""
         Your <b>work experience</b>:
         """,
-        parse_mode='HTML',
         reply_markup=rkb_experience()
     )
     await state.set_state(UserState.experience)
@@ -139,7 +133,6 @@ async def show_experience(message: Message, state: FSMContext) -> None:
         text=f"""
         Your <b>work experience</b>:
         """,
-        parse_mode='HTML',
         reply_markup=rkb_experience()
     )
     await state.set_state(UserState.experience)
@@ -149,12 +142,11 @@ async def show_experience(message: Message, state: FSMContext) -> None:
 async def get_job_type(message: Message, state: FSMContext) -> None:
     await state.update_data(technologies=[])
 
-    tech_list = await read_tech_list()
+    tech_list = await get_keywords()
     await message.answer(
         text=f"""
         Specify the <b>technologies</b> for which you want to receive notifications.
         """,
-        parse_mode='HTML',
         reply_markup=ikb_technologies(sorted(tech_list), [], 0)
     )
     await state.set_state(UserState.technologies)
@@ -171,7 +163,6 @@ async def get_experience(message: Message, state: FSMContext) -> None:
         text=f"""
         <b>Salary expectations</b>:
         """,
-        parse_mode='HTML',
         reply_markup=rkb_salary()
     )
     await state.set_state(UserState.salary_rate)
@@ -185,7 +176,6 @@ async def get_salary_rate(message: Message, state: FSMContext) -> None:
             text="""
             <b>Salary expectations</b>\n\nPlease enter a number:
             """,
-            parse_mode='HTML',
             reply_markup=rkb_salary()
         )
         return
@@ -196,7 +186,6 @@ async def get_salary_rate(message: Message, state: FSMContext) -> None:
         text=f"""
         Your <b>English level</b>:
         """,
-        parse_mode='HTML',
         reply_markup=rkb_english_lvl()
     )
     await state.set_state(UserState.english_lvl)
@@ -210,7 +199,6 @@ async def get_salary_rate(callback: CallbackQuery, state: FSMContext) -> None:
         text="""
         Your <b>English level</b>:
         """,
-        parse_mode='HTML',
         reply_markup=rkb_english_lvl()
     )
     await state.set_state(UserState.english_lvl)
@@ -218,6 +206,8 @@ async def get_salary_rate(callback: CallbackQuery, state: FSMContext) -> None:
 
 @router.message(F.text, UserState.english_lvl)
 async def get_english_lvl(message: Message, state: FSMContext) -> None:
+    data = await state.get_data()
+    print(data)
     english_lvl = message.text
     await state.update_data(english_lvl=english_lvl, countries=[], countries_name=[])
 
@@ -225,7 +215,6 @@ async def get_english_lvl(message: Message, state: FSMContext) -> None:
         text=f"""
         Your <b>country</b>:
         """,
-        parse_mode='HTML',
         reply_markup=ikb_countries()
     )
     await state.set_state(UserState.country)
@@ -277,7 +266,6 @@ async def get_country(callback: CallbackQuery) -> None:
         text="""
         Your <b>country</b>:
         """,
-        parse_mode='HTML',
         reply_markup=ikb_countries(current_page)
     )
 
@@ -303,7 +291,6 @@ async def get_country(callback: CallbackQuery, state: FSMContext) -> None:
         text=f"""
         Countries - {text}\n\nYour <b>city</b>:
         """,
-        parse_mode='HTML',
         reply_markup=ikb_cities(country)
     )
     await state.set_state(UserState.city)
@@ -368,7 +355,6 @@ async def get_country(callback: CallbackQuery) -> None:
         text="""
         Your <b>country</b>:
         """,
-        parse_mode='HTML',
         reply_markup=ikb_countries()
     )
 
@@ -383,7 +369,6 @@ async def get_city(callback: CallbackQuery, state: FSMContext) -> None:
         text="""
         Your <b>city</b>:
         """,
-        parse_mode='HTML',
         reply_markup=ikb_cities(country, current_page)
     )
 
@@ -408,7 +393,6 @@ async def get_country(callback: CallbackQuery, state: FSMContext) -> None:
         Your countries - {text_2}
 Your cities - {text}
         """,
-        parse_mode='HTML',
         reply_markup=ikb_countries()
     )
     await state.set_state(UserState.country)
@@ -440,12 +424,23 @@ async def get_country(callback: CallbackQuery, bot: Bot, users: Users,
 
         await callback.message.delete()
 
-        await callback.message.answer(
-            text="""
-            From now on, we will send you notifications based on your interests.
-            """,
-            reply_markup=rkb_menu()
-        )
+        sub = await users.get_sub(telegram_id)
+        if sub:
+            await personal_mailing(bot, telegram_id, data)
+            await callback.message.answer(
+                text="""
+                From now on, we will send you notifications based on your interests.
+                """,
+                reply_markup=rkb_menu()
+            )
+
+        else:
+            await callback.message.answer(
+                text="""
+                For the bot to work you need to be subscribed to the channel
+                """,
+                reply_markup=ikb_motivator()
+            )
 
     else:
         subscription_id = None
@@ -503,11 +498,20 @@ async def get_country(callback: CallbackQuery, bot: Bot, users: Users,
 
             if matching_id:
                 data = await subscription.get_subscription_by_id(matching_id)
-                await send_single_user_mailing(bot, telegram_id, data)
 
             elif subscription_id:
                 data = await subscription.get_subscription_by_id(subscription_id)
-                await send_single_user_mailing(bot, telegram_id, data)
+
+            sub = await users.get_sub(telegram_id)
+            if sub:
+                await personal_mailing(bot, telegram_id, data)
+            else:
+                await callback.message.answer(
+                    text="""
+                    For the bot to work you need to be subscribed to the channel
+                    """,
+                    reply_markup=ikb_motivator()
+                )
 
 
 @router.callback_query(F.data == '-')

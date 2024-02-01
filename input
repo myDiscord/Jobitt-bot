@@ -1,7 +1,12 @@
-TOKEN=5968452292:AAHaOwbQEkjW2vHC4o3MJCwQupJs8Lbx7Uw
+# bot
+TOKEN=6870937086:AAGCdY-Vkqoo7OC0-QdIvOKYY5kTZtV0ZSM
+
+# channel
+ID=-1001436417093
+LINK=https://t.me/JOBITT_Ukraine
 
 DB_HOST='localhost'
 DB_PORT=5433
-DB_DATABASE='jobitt'
+DB_DATABASE='job_itt'
 DB_USER='postgres'
 DB_PASSWORD='postgres'

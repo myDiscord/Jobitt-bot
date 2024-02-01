@@ -17,7 +17,9 @@ class Users:
                 email TEXT,
                 linked_in TEXT,
                 subscriptions BIGINT[], 
-                date DATE
+                date DATE,
+                
+                sub BOOL DEFAULT FALSE
             )
         """)
 
@@ -105,3 +107,19 @@ class Users:
         else:
             df = pd.DataFrame(records, columns=records[0].keys())
             df.to_excel(filename, engine='openpyxl', index=False)
+
+    # sub status
+    async def get_sub(self, telegram_id: int) -> bool:
+        return await self.connector.fetchval("""
+            SELECT sub 
+            FROM users
+            WHERE telegram_id = $1;
+        """, telegram_id)
+
+    # sub status
+    async def set_sub_status(self, telegram_id: int, status: bool) -> None:
+        return await self.connector.fetchval("""
+            UPDATE users 
+            SET sub = $2
+            WHERE telegram_id = $1;
+        """, telegram_id, status)

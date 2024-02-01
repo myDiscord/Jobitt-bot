@@ -8,6 +8,12 @@ class Bots:
 
 
 @dataclass
+class Channels:
+    channel_id: int
+    link: str
+
+
+@dataclass
 class Db:
     db_user: str
     db_password: str
@@ -19,6 +25,7 @@ class Db:
 @dataclass
 class Settings:
     bots: Bots
+    channels: Channels
     db: Db
 
 
@@ -29,6 +36,10 @@ def get_settings(path: str):
     return Settings(
         bots=Bots(
             bot_token=env.str('TOKEN')
+        ),
+        channels=Channels(
+            channel_id=env.int('ID'),
+            link=env.str('LINK')
         ),
         db=Db(
             db_user=env.str('DB_USER'),

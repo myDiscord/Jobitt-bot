@@ -1,32 +1,14 @@
+import asyncio
 from datetime import datetime
 
-from aiogram import Router, Bot, F
-from aiogram.fsm.context import FSMContext
-from aiogram.types import Message
+from aiogram import Bot
 
 from core.database.db_base import day_data
-from core.database.db_subscription import Subscription
-from core.keyboards.user.menu_reply import rkb_main_menu
 from core.keyboards.user_inline import ikb_url
 
-router = Router()
 
-
-@router.message(F.text == '👁‍🗨 All vacancies')
-async def all_subscription(message: Message, bot: Bot, subscription: Subscription, state: FSMContext) -> None:
-    telegram_id = message.from_user.id
-
-    await message.answer(
-        text="""
-        All vacancies for the month:
-        """,
-        reply_markup=rkb_main_menu()
-    )
-
-    data = await state.get_data()
-    matching_id = int(data.get('matching_id'))
-    sub = await subscription.get_subscription_by_id(matching_id)
-
+async def personal_mailing(bot: Bot, telegram_id: int, sub: dict) -> None:
+    await asyncio.sleep(30)
     data = await day_data(sub["job_type"], sub["technologies"], sub["experience"])
     for row in data:
         if row['is_remote'] == 0:
@@ -85,3 +67,5 @@ async def all_subscription(message: Message, bot: Bot, subscription: Subscriptio
         except Exception as e:
             with open('logs/mailing.log', 'a') as log_file:
                 log_file.write(f'{datetime.now()} - {telegram_id} - Exception: {e}' + '\n')
+
+        await asyncio.sleep(60 * 5)

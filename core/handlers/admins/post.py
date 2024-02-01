@@ -4,7 +4,6 @@ from aiogram import Bot, Router, F
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
-from core.database.db_post import Post
 from core.database.db_users import Users
 from core.keyboards.smm_keyboards import rkb_smm, rkb_smm_menu, rkb_time_button, ikb_keyboard, rkb_new_post, ikb_day, \
     ikb_hour, ikb_minute, rkb_cancel, rkb_media_time_button
@@ -479,7 +478,7 @@ async def preview(smm_id: int, bot: Bot, state: FSMContext) -> None:
 @router.message(F.text == '📨 Send', SmmState.button_url)
 @router.message(F.text == '📨 Send', SmmState.circle)
 @router.message(F.text == '📨 Send', SmmState.media_text)
-async def send(message: Message, bot: Bot, users: Users, post: Post, state: FSMContext) -> None:
+async def send(message: Message, bot: Bot, users: Users, state: FSMContext) -> None:
 
     data = await state.get_data()
     text = data.get('text')
@@ -490,24 +489,7 @@ async def send(message: Message, bot: Bot, users: Users, post: Post, state: FSMC
     button_text = data.get('button_text')
     button_url = data.get('button_url')
 
-    # year = data.get('year')
-    # month = data.get('month')
-    # day = data.get('day')
-    # hour = data.get('hour')
-    # minute = data.get('minute')
-    #
-    # formatted_datetime = datetime(year, month, day, hour, minute)
-    #
-    # post_id = await post.add_row(text, photo, video, caption, circle,
-    #                              formatted_datetime, button_text, button_url)
-
     await del_message(bot, message, message_list)
-
-    # await message.answer(
-    #     text=f"""
-    #     Post №{post_id} scheduled for {day}.{month}.{year} {hour}:{minute}
-    #     """
-    # )
 
     await state.clear()
 

@@ -13,9 +13,7 @@ class Admins:
                 technologies TEXT[],
                 block BOOL DEFAULT FALSE,
                 
-                first_source TEXT,
-                second_source TEXT,
-                base_source TEXT DEFAULT CURRENT_TIMESTAMP
+                last_id INTEGER
             )
         """)
 
@@ -45,16 +43,16 @@ class Admins:
         """, new_password)
 
     # last_date
-    async def get_last_date(self, column_name: str) -> str:
+    async def get_last_id(self) -> int:
         return await self.connector.fetchval(f"""
-            SELECT {column_name} 
+            SELECT last_id
             FROM admins 
         """)
 
-    async def update_last_date(self, column_name: str, value: str) -> None:
+    async def update_last_id(self, value: str) -> None:
         await self.connector.execute(f"""
             UPDATE admins 
-            SET {column_name} = $1 
+            SET last_id = $1 
         """, value)
 
     # hold

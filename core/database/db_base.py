@@ -1,11 +1,13 @@
+from typing import List, Dict
+
 from aiomysql import connect, DictCursor
 
 
 async def create_dict_con():
     connector = await connect(
-        host='64.226.76.253',
-        port=3306,
-        user='admin',
+        host='88.99.59.75',
+        port=32643,
+        user='root',
         password='Gp73g6Ne3P1',
         db='vacancies',
         cursorclass=DictCursor
@@ -56,4 +58,37 @@ async def get_vacancies_by_interest(created_at):
         """, (created_at,))
     query = await cur.fetchall()
     con.close()
+    return query
+
+
+async def day_data(job_type: list, technologies: list, experience: str, limit: int = 50) -> List[Dict]:
+    con, cur = await create_dict_con()
+    await cur.execute(f"""
+        SELECT v.id, v.name, v.salary, v.work_type, v.english_level, v.experience, 
+            v.is_remote, v.short_description, v.keywords, v.url AS work_url, v.created_at, 
+            v.website, c.name AS company_name, c.url AS company_url
+        FROM vacancies v
+        LEFT JOIN companies c ON c.id = v.company_id
+        WHERE  (v.work_type IS NULL OR v.work_type IN ({', '.join(job_type)}))
+            AND (v.keywords IS NULL OR v.keywords IN ({', '.join(technologies)}))
+            AND (v.experience IS NULL OR v.experience = {experience})
+        LIMIT {limit};
+        """)
+    query = await cur.fetchall()
+    await con.ensure_closed()
+    return query
+
+
+async def new_data(vacancy_id: int) -> List[Dict]:
+    con, cur = await create_dict_con()
+    await cur.execute("""
+        SELECT v.id, v.name, v.salary, v.work_type, v.english_level, v.experience, 
+            v.is_remote, v.short_description, v.keywords, v.url AS work_url, v.created_at, 
+            v.website, c.url AS company_url
+        FROM vacancies v
+        LEFT JOIN companies c ON c.id = v.company_id
+        WHERE v.id > $1;
+        """, vacancy_id)
+    query = await cur.fetchall()
+    await con.ensure_closed()
     return query

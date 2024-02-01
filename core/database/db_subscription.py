@@ -20,8 +20,9 @@ class Subscription:
             )
         """)
 
-    async def create_subscription(self, telegram_id: int, job_type: list, technologies: list,
-                                  experience: str, salary_rate: str, english_lvl: str, country: list, city: list) -> int:
+    async def create_subscription(self, telegram_id: int, job_type: list,
+                                  technologies: list, experience: str, salary_rate: str,
+                                  english_lvl: str, country: list, city: list) -> int:
         query = await self.connector.fetchrow("""
             INSERT INTO subscription (telegram_id, job_type, technologies, 
                 experience, salary_rate, english_lvl, country, city)
@@ -40,8 +41,9 @@ class Subscription:
 
         return query
 
-    async def update_subscription(self, subscription_id: int, job_type: list, technologies: list,
-                                  experience: str, salary_rate: str, english_lvl: str, country: list, city: list) -> None:
+    async def update_subscription(self, subscription_id: int, job_type: list,
+                                  technologies: list, experience: str, salary_rate: str,
+                                  english_lvl: str, country: list, city: list) -> None:
         await self.connector.execute("""
             UPDATE subscription
             SET job_type = $2,
@@ -81,8 +83,10 @@ class Subscription:
 
     async def get_all_subscriptions(self):
         query = await self.connector.fetch("""
-            SELECT * 
-            FROM subscription
+            SELECT s.*
+            FROM subscription s
+            JOIN users u ON s.id = ANY(u.subscriptions)
+            WHERE u.sub = TRUE
         """)
         return [dict(record) for record in query]
 

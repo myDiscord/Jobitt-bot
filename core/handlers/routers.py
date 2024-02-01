@@ -14,9 +14,11 @@ from core.handlers.admins.download import router as download
 from core.handlers.admins.interests import router as interests
 from core.handlers.admins.technologies import router as technologies
 
+from core.handlers.change_status import router as channel
 
 user_router = Router()
 user_router.include_routers(
+    channel,
     start,
     registration,
     add_subscription,
