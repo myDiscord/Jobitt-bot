@@ -12,8 +12,6 @@ from core.keyboards.user.add_subscriptions_reply import ikb_type, rkb_experience
     rkb_salary
 from core.keyboards.user.menu_reply import rkb_menu, rkb_no_sub
 from core.keyboards.user.my_subscriptions_reply import ikb_my_subscriptions
-from core.keyboards.user_inline import ikb_motivator
-from core.mailing.base import personal_mailing_test
 from core.mailing.personal import personal_mailing
 from core.utils.states import UserState
 
