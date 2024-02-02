@@ -5,8 +5,8 @@ from aiomysql import connect, DictCursor
 
 async def create_dict_con():
     connector = await connect(
-        host='88.99.59.75',
-        port=33005,
+        host='10.0.0.91',
+        port=3306,
         user='root',
         password='Gp73g6Ne3P1',
         db='vacancies',
