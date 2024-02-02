@@ -6,8 +6,8 @@ After=network.target
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/root/Jobitt-bot/heb
-ExecStart=/root/Jobitt-bot/venv/bin/python3 /root/Jobitt-bot/heb/main.py
+WorkingDirectory=/root/Jobitt-bot
+ExecStart=/root/Jobitt-bot/venv/bin/python3 /root/Jobitt-bot/main_heb.py
 RestartSec=10
 Restart=always
 
