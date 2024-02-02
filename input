@@ -2,11 +2,11 @@
 TOKEN=6870937086:AAGCdY-Vkqoo7OC0-QdIvOKYY5kTZtV0ZSM
 
 # channel
-ID=-1002028012980
-LINK=https://t.me/jhisfhisdhfisdf
+ID=-1001436417093
+LINK=https://t.me/JOBITT_Ukraine
 
 DB_HOST='localhost'
-DB_PORT=5433
-DB_DATABASE='job_itt'
+DB_PORT=5432
+DB_DATABASE='job_it'
 DB_USER='postgres'
 DB_PASSWORD='postgres'
