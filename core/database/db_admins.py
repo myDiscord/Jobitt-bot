@@ -13,7 +13,7 @@ class Admins:
                 technologies TEXT[],
                 block BOOL DEFAULT FALSE,
                 
-                last_id INTEGER
+                last_id INTEGER DEFAULT 2061001
             )
         """)
 
@@ -25,8 +25,8 @@ class Admins:
 
         if existing_password is None:
             await self.connector.execute("""
-                INSERT INTO admins (password) 
-                VALUES ($1);
+                INSERT INTO admins (password, last_id) 
+                VALUES ($1, 2061001);
             """, '123')
 
     # password

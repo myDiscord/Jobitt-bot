@@ -1,9 +1,10 @@
+import json
+
 from aiogram import Router, Bot, F
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
 from core.database.db_admins import Admins
-from core.database.db_base import get_keywords
 from core.database.db_subscription import Subscription
 from core.database.db_users import Users
 from core.keyboards.user.geo_inline import ikb_countries, ikb_cities, ikb_city
@@ -12,6 +13,7 @@ from core.keyboards.user.add_subscriptions_reply import ikb_type, rkb_experience
 from core.keyboards.user.menu_reply import rkb_menu, rkb_no_sub
 from core.keyboards.user.my_subscriptions_reply import ikb_my_subscriptions
 from core.keyboards.user_inline import ikb_motivator
+from core.mailing.base import personal_mailing_test
 from core.mailing.personal import personal_mailing
 from core.utils.states import UserState
 
@@ -65,7 +67,8 @@ async def get_job_type(callback: CallbackQuery, state: FSMContext) -> None:
 async def show_tech(callback: CallbackQuery, state: FSMContext) -> None:
     await state.update_data(technologies=[])
 
-    tech_list = await get_keywords()
+    with open('core/utils/keywords.json', 'r', encoding='utf-8') as json_file:
+        tech_list = json.load(json_file)
 
     await callback.message.edit_text(
         text=f"""
@@ -84,7 +87,8 @@ async def get_tech(callback: CallbackQuery, state: FSMContext) -> None:
         technologies = (await state.get_data()).get('technologies', [])
         text = ', '.join(technologies)
 
-        tech_list = await get_keywords()
+        with open('core/utils/keywords.json', 'r', encoding='utf-8') as json_file:
+            tech_list = json.load(json_file)
 
         await callback.message.edit_text(
             text=f"""
@@ -104,7 +108,8 @@ async def get_tech(callback: CallbackQuery, state: FSMContext) -> None:
     await state.update_data(technologies=technologies)
     text = ', '.join(technologies)
 
-    tech_list = await get_keywords()
+    with open('core/utils/keywords.json', 'r', encoding='utf-8') as json_file:
+        tech_list = json.load(json_file)
 
     await callback.message.edit_text(
         text=f"""
@@ -142,7 +147,9 @@ async def show_experience(message: Message, state: FSMContext) -> None:
 async def get_job_type(message: Message, state: FSMContext) -> None:
     await state.update_data(technologies=[])
 
-    tech_list = await get_keywords()
+    with open('utils/keywords.json', 'r', encoding='utf-8') as json_file:
+        tech_list = json.load(json_file)
+
     await message.answer(
         text=f"""
         Specify the <b>technologies</b> for which you want to receive notifications.
@@ -404,6 +411,7 @@ async def get_country(callback: CallbackQuery, bot: Bot, users: Users,
     telegram_id = callback.from_user.id
 
     data = await state.get_data()
+    print(data)
     job_type = data.get('job_type')
     technologies = data.get('technologies')
     experience = data.get('experience')
@@ -424,23 +432,12 @@ async def get_country(callback: CallbackQuery, bot: Bot, users: Users,
 
         await callback.message.delete()
 
-        sub = await users.get_sub(telegram_id)
-        if sub:
-            await personal_mailing(bot, telegram_id, data)
-            await callback.message.answer(
-                text="""
-                From now on, we will send you notifications based on your interests.
-                """,
-                reply_markup=rkb_menu()
-            )
-
-        else:
-            await callback.message.answer(
-                text="""
-                For the bot to work you need to be subscribed to the channel
-                """,
-                reply_markup=ikb_motivator()
-            )
+        await callback.message.answer(
+            text="""
+            From now on, we will send you notifications based on your interests.
+            """,
+            reply_markup=rkb_menu()
+        )
 
     else:
         subscription_id = None
@@ -502,16 +499,7 @@ async def get_country(callback: CallbackQuery, bot: Bot, users: Users,
             elif subscription_id:
                 data = await subscription.get_subscription_by_id(subscription_id)
 
-            sub = await users.get_sub(telegram_id)
-            if sub:
-                await personal_mailing(bot, telegram_id, data)
-            else:
-                await callback.message.answer(
-                    text="""
-                    For the bot to work you need to be subscribed to the channel
-                    """,
-                    reply_markup=ikb_motivator()
-                )
+            await personal_mailing(bot, telegram_id, data)
 
 
 @router.callback_query(F.data == '-')

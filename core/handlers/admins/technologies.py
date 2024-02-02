@@ -1,4 +1,5 @@
 import asyncio
+import json
 from datetime import datetime
 
 from aiogram import Bot, Router, F
@@ -6,7 +7,6 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from core.database.db_admins import Admins
-from core.database.db_base import get_keywords
 from core.keyboards.admin_keyboards import rkb_technologies, rkb_back, rkb_admin_menu
 from core.utils.chat_cleaner import del_message, message_list
 from core.utils.states import AdminState
@@ -37,7 +37,8 @@ async def settings(message: Message, bot: Bot, admins: Admins, state: FSMContext
 
     await del_message(bot, message, message_list)
 
-    tech_list = await get_keywords()
+    with open('core/utils/keywords.json', 'r', encoding='utf-8') as json_file:
+        tech_list = json.load(json_file)
 
     msg = await message.answer(
         text=f"""
@@ -83,7 +84,8 @@ async def settings(message: Message, bot: Bot, admins: Admins, state: FSMContext
     )
     message_list.append(msg.message_id)
 
-    tech_list = await get_keywords()
+    with open('core/utils/keywords.json', 'r', encoding='utf-8') as json_file:
+        tech_list = json.load(json_file)
 
     msg = await message.answer(
         text=f"""
@@ -148,7 +150,8 @@ async def get_technology(message: Message, bot: Bot, admins: Admins, state: FSMC
     )
     message_list.append(msg.message_id)
 
-    tech_list = await get_keywords()
+    with open('core/utils/keywords.json', 'r', encoding='utf-8') as json_file:
+        tech_list = json.load(json_file)
 
     msg = await message.answer(
         text=f"""

@@ -1,3 +1,5 @@
+from typing import List, Dict
+
 import asyncpg
 
 
@@ -81,12 +83,10 @@ class Subscription:
             return dict(record)
         return None
 
-    async def get_all_subscriptions(self):
+    async def get_all_subscriptions(self) -> List[Dict]:
         query = await self.connector.fetch("""
-            SELECT s.*
-            FROM subscription s
-            JOIN users u ON s.id = ANY(u.subscriptions)
-            WHERE u.sub = TRUE
+            SELECT telegram_id, job_type, technologies, experience
+            FROM subscription
         """)
         return [dict(record) for record in query]
 

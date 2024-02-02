@@ -12,6 +12,8 @@ from aiogram.fsm.storage.redis import RedisStorage
 from core.database.db_admins import Admins
 from core.database.db_subscription import Subscription
 from core.database.db_users import Users
+from core.mailing.general import check_for_mailing
+from core.middleware.motivator import SubMiddleware
 
 from core.settings import settings
 
@@ -19,6 +21,7 @@ from core.utils.commands import set_commands
 from core.utils.db_create import check_database_exists, create_database
 
 from core.handlers.routers import user_router, admin_router
+from core.utils.technologies import make_tech_list
 
 
 async def start_bot(bot: Bot, users: Users, subscription: Subscription, admins: Admins) -> None:
@@ -26,6 +29,9 @@ async def start_bot(bot: Bot, users: Users, subscription: Subscription, admins: 
     await users.create_users_table_if_not_exists()
     await subscription.create_subscription_table_if_not_exists()
     await admins.create_admins_table_if_not_exists()
+    asyncio.create_task(make_tech_list())
+    await asyncio.sleep(60)
+    asyncio.create_task(check_for_mailing(bot, subscription, admins))
 
 
 async def stop_bot() -> None:
@@ -63,6 +69,9 @@ async def start():
     pool_connect = await create_pool()
     storage = RedisStorage.from_url('redis://localhost:6379/0')
     dp = Dispatcher(storage=storage)
+
+    # dp.message.middleware(SubMiddleware())
+    dp.callback_query.middleware(SubMiddleware())
 
     dp.startup.register(start_bot)
     dp.shutdown.register(stop_bot)

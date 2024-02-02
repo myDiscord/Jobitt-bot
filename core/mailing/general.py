@@ -1,4 +1,3 @@
-from googletrans import Translator
 from datetime import datetime
 
 import asyncio
@@ -10,43 +9,44 @@ from core.database.db_base import new_data
 from core.database.db_subscription import Subscription
 
 from core.keyboards.user_inline import ikb_url
-from core.utils.addition_data import job_types, experience, exp_source, english
-
-translator = Translator()
 
 
 async def mailing(telegram_id: int, row: dict, bot: Bot) -> None:
-    if row['is_remote'] == 0:
-        remote = 'Remote work'
+    if row.get('is_remote'):
+        text_remote = 'Remote work'
     else:
-        remote = 'Office'
+        text_remote = 'Office'
 
-    if row['company_url']:
-        company = f"<a href={row['company_url']}>{row['company_name']}</a>"
+    if row.get('company_name'):
+        company = f"<a href={row.get('company_url')}>{row.get('company_name')}</a>"
     else:
-        company = f"{row['company_name']}"
+        company = f"{row.get('company_name')}"
 
-    if row['salary']:
-        salary = f"\n▪️ Salary - {row['salary']}"
+    if row.get('salary'):
+        text_salary = f"\n▪️ Salary - {row.get('salary')}"
     else:
-        salary = ''
+        text_salary = ''
 
-    if row['work_type']:
-        text_work_type = f"\n▪️ Work type - {row['work_type']:}"
-        work_type = f" #{row['work_type']:}"
+    if row.get('work_type'):
+        text_work_type = f"\n▪️ Work type - {row.get('work_type')}"
+        work_types = f"#{row.get('work_type')}"
     else:
-        text_work_type, work_type = '', ''
+        text_work_type, work_types = '', ''
 
-    if '/' in row['keywords'] or ' / ' in row['keywords']:
-        keywords = f"#{row['keywords'].split('/')}" \
-            if '/' in f"#{row['keywords']}" else row['keywords'].split(' / ')
+    if ' / ' in row.get('keywords'):
+        keywords = row.get('keywords').split(' / ')
         keywords = keywords.replace(' ', '')
         keyword = ' '.join(keywords)
     else:
-        keyword = row['keywords'].replace(' ', '')
+        keyword = row.get('keywords').replace(' ', '')
         keyword = f" #{keyword}"
 
-    url = row['url']
+    if row.get('website'):
+        website = f" #{row.get('website')}"
+    else:
+        website = ''
+
+    url = row.get('work_url')
     if url.endswith('/'):
         url += '?utm_source=JOBITT&utm_medium=BOT+&utm_campaign=JOBITT'
     else:
@@ -59,13 +59,14 @@ async def mailing(telegram_id: int, row: dict, bot: Bot) -> None:
             {company}
 
 🔘 {row['name']}
-{salary}{text_work_type}
-▪️ Place of work - {remote}
-▪️ Technologies - {row['keywords']}
+{text_salary}{text_work_type}
 
-{row['short_description']}
+▪️ Place of work - {text_remote}
+▪️ Technologies - {row.get('keywords')}
 
-#JOBITT{work_type}{salary}{keyword}
+{row.get('short_description')}
+
+#JOBITT{website} {work_types.replace(' ', '_')}{keyword}
             """,
             reply_markup=ikb_url(url)
         )
@@ -86,35 +87,17 @@ async def check_for_mailing(bot: Bot, subscription: Subscription, admins: Admins
         await admins.update_last_id(data[0]["id"])
 
         for row in data:
-            try:
-                keywords = row['keywords'].split('/') if '/' in row['keywords'] else row['keywords'].split(' / ')
+            keywords = row.get('keywords').split('/') if '/' in row.get('keywords') else row.get('keywords').split(' / ')
 
-                all_subscriptions = await subscription.get_all_subscriptions()
-                for user in all_subscriptions:
+            all_subscriptions = await subscription.get_all_subscriptions()
+            for user in all_subscriptions:
 
-                    if keywords and not any(keyword in user['technologies'] for keyword in keywords):
-                        continue
-                    if row['salary'] and row['salary'].isdigit() and user['salary_rate'] >= row['salary']:
-                        continue
+                if keywords and not any(keyword in user.get('technologies') for keyword in keywords):
+                    continue
 
-                    if row['experience']:
-                        for key, val in exp_source.items():
-                            if key in row['experience']:
-                                exp = exp_source[key]
-                                if exp > experience[user['experience']]:
-                                    continue
+                if row.get('work_type') and row.get('work_type') not in user.get('job_type'):
+                    continue
 
-                    if row['english_level']:
-                        if row['english_level'] in english.keys() and \
-                                english[user['english_lvl']] < english[row['english_level']]:
-                            continue
-                    if job_types[row['work_type']] not in user['job_type']:
-                        continue
-
-                    await mailing(user['telegram_id'], row, bot)
-
-            except Exception as e:
-                with open('logs/mailing.log', 'a') as log_file:
-                    log_file.write(f'{datetime.now()} Exception {e}' + '\n')
+                await mailing(user.get('telegram_id'), row, bot)
 
         await asyncio.sleep(60)
