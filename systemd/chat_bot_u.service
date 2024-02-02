@@ -1,5 +1,5 @@
 [Unit]
-Description=chat_bot_ua
+Description=chat_bot_u
 After=syslog.target
 After=network.target
 
