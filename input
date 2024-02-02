@@ -6,7 +6,7 @@ ID=-1001436417093
 LINK=https://t.me/JOBITT_Ukraine
 
 DB_HOST='localhost'
-DB_PORT=5433
+DB_PORT=5432
 DB_DATABASE='job_it'
 DB_USER='postgres'
 DB_PASSWORD='postgres'
