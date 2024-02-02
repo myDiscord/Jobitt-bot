@@ -1,0 +1,15 @@
+[Unit]
+Description=chat_bot_ua
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/Jobitt-bot/ua
+ExecStart=/root/Jobitt-bot/venv/bin/python3 /root/Jobitt-bot/ua/main.py
+RestartSec=10
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

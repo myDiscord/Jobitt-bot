@@ -1,0 +1,12 @@
+# bot
+TOKEN=6870937086:AAGCdY-Vkqoo7OC0-QdIvOKYY5kTZtV0ZSM
+
+# channel
+ID=-1002108165858
+LINK=https://t.me/high_tech_il
+
+DB_HOST='localhost'
+DB_PORT=5432
+DB_DATABASE='job_it'
+DB_USER='postgres'
+DB_PASSWORD='postgres'
