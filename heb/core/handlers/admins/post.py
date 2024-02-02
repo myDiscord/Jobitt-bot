@@ -4,11 +4,11 @@ from aiogram import Bot, Router, F
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
-from ua.core.database.db_users import Users
-from ua.core.keyboards.smm_keyboards import rkb_smm, rkb_smm_menu, rkb_time_button, ikb_keyboard, rkb_new_post, ikb_day, \
+from heb.core.database.db_users import Users
+from heb.core.keyboards.smm_keyboards import rkb_smm, rkb_smm_menu, rkb_time_button, ikb_keyboard, rkb_new_post, ikb_day, \
     ikb_hour, ikb_minute, rkb_cancel, rkb_media_time_button
-from ua.core.utils.chat_cleaner import del_message, message_list, del_callback
-from ua.core.utils.states import SmmState
+from heb.core.utils.chat_cleaner import del_message, message_list, del_callback
+from heb.core.utils.states import SmmState
 
 
 router = Router()

@@ -3,8 +3,8 @@ from datetime import datetime
 
 from aiogram import Bot
 
-from ua.core.database.db_base import day_data
-from ua.core.keyboards.user_inline import ikb_url
+from heb.core.database.db_base import day_data
+from heb.core.keyboards.user_inline import ikb_url
 
 
 async def personal_mailing(bot: Bot, telegram_id: int, sub: dict) -> None:

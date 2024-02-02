@@ -9,19 +9,19 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.redis import RedisStorage
 
-from ua.core import Admins
-from ua.core.database.db_subscription import Subscription
-from ua.core import Users
-from ua.core import check_for_mailing
-from ua.core.middleware.motivator import SubMiddleware
+from heb.core import Admins
+from heb.core.database.db_subscription import Subscription
+from heb.core import Users
+from heb.core import check_for_mailing
+from heb.core.middleware.motivator import SubMiddleware
 
-from ua.core import settings
+from heb.core import settings
 
-from ua.core import set_commands
-from ua.core.utils.db_create import check_database_exists, create_database
+from heb.core import set_commands
+from heb.core.utils.db_create import check_database_exists, create_database
 
-from ua.core.handlers import user_router, admin_router
-from ua.core import make_tech_list
+from heb.core.handlers import user_router, admin_router
+from heb.core import make_tech_list
 
 
 async def start_bot(bot: Bot, users: Users, subscription: Subscription, admins: Admins) -> None:

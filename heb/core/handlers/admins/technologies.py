@@ -6,10 +6,10 @@ from aiogram import Bot, Router, F
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from ua.core.database.db_admins import Admins
-from ua.core.keyboards.admin_keyboards import rkb_technologies, rkb_back, rkb_admin_menu
-from ua.core.utils.chat_cleaner import del_message, message_list
-from ua.core.utils.states import AdminState
+from heb.core.database.db_admins import Admins
+from heb.core.keyboards.admin_keyboards import rkb_technologies, rkb_back, rkb_admin_menu
+from heb.core.utils.chat_cleaner import del_message, message_list
+from heb.core.utils.states import AdminState
 
 router = Router()
 

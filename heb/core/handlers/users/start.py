@@ -3,9 +3,9 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
-from ua.core.database.db_users import Users
-from ua.core.keyboards.user.menu_reply import rkb_start, rkb_menu
-from ua.core.utils.chat_cleaner import message_list
+from heb.core.database.db_users import Users
+from heb.core.keyboards.user.menu_reply import rkb_start, rkb_menu
+from heb.core.utils.chat_cleaner import message_list
 
 router = Router()
 

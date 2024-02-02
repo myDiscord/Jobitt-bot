@@ -4,11 +4,11 @@ import asyncio
 
 from aiogram import Bot
 
-from ua.core.database.db_admins import Admins
-from ua.core.database.db_base import new_data
-from ua.core.database.db_subscription import Subscription
+from heb.core.database.db_admins import Admins
+from heb.core.database.db_base import new_data
+from heb.core.database.db_subscription import Subscription
 
-from ua.core.keyboards.user_inline import ikb_url
+from heb.core.keyboards.user_inline import ikb_url
 
 
 async def mailing(telegram_id: int, row: dict, bot: Bot) -> None:

@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from ua.core.settings import settings
+from heb.core.settings import settings
 
 
 def ikb_keyboard(texts, urls) -> InlineKeyboardMarkup:

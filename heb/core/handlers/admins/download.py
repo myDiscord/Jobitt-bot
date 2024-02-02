@@ -3,9 +3,9 @@ import os
 from aiogram import Router, F, Bot
 from aiogram.types import Message, FSInputFile
 
-from ua.core.database.db_users import Users
-from ua.core.keyboards.admin_keyboards import rkb_admin_menu
-from ua.core.utils.chat_cleaner import message_list, del_message, del_bot_message
+from heb.core.database.db_users import Users
+from heb.core.keyboards.admin_keyboards import rkb_admin_menu
+from heb.core.utils.chat_cleaner import message_list, del_message, del_bot_message
 
 router = Router()
 

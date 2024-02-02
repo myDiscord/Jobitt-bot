@@ -4,10 +4,10 @@ from aiogram import Router, Bot, F
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from ua.core.database.db_base import day_data
-from ua.core.database.db_subscription import Subscription
-from ua.core.keyboards.user.menu_reply import rkb_main_menu
-from ua.core.keyboards.user_inline import ikb_url
+from heb.core.database.db_base import day_data
+from heb.core.database.db_subscription import Subscription
+from heb.core.keyboards.user.menu_reply import rkb_main_menu
+from heb.core.keyboards.user_inline import ikb_url
 
 router = Router()
 

@@ -6,8 +6,8 @@ from aiogram.exceptions import TelegramBadRequest, TelegramForbiddenError
 from aiogram.types import CallbackQuery, Message
 from cachetools import TTLCache
 
-from ua.core.handlers.motivator import need_sub
-from ua.core.settings import settings
+from heb.core.handlers.motivator import need_sub
+from heb.core.settings import settings
 
 
 class SubMiddleware(BaseMiddleware):

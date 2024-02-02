@@ -1,6 +1,6 @@
 from aiogram import Bot
 
-from ua.core.keyboards.user_inline import ikb_motivator
+from heb.core.keyboards.user_inline import ikb_motivator
 
 
 async def need_sub(user_id: int, bot: Bot) -> None:

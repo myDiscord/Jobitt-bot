@@ -4,16 +4,16 @@ from aiogram import Router, Bot, F
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
-from ua.core.database.db_admins import Admins
-from ua.core.database.db_subscription import Subscription
-from ua.core.database.db_users import Users
-from ua.core.keyboards.user.geo_inline import ikb_countries, ikb_cities, ikb_city
-from ua.core.keyboards.user.add_subscriptions_reply import ikb_type, rkb_experience, rkb_english_lvl, ikb_technologies, \
+from heb.core.database.db_admins import Admins
+from heb.core.database.db_subscription import Subscription
+from heb.core.database.db_users import Users
+from heb.core.keyboards.user.geo_inline import ikb_countries, ikb_cities, ikb_city
+from heb.core.keyboards.user.add_subscriptions_reply import ikb_type, rkb_experience, rkb_english_lvl, ikb_technologies, \
     rkb_salary
-from ua.core.keyboards.user.menu_reply import rkb_menu, rkb_no_sub
-from ua.core.keyboards.user.my_subscriptions_reply import ikb_my_subscriptions
-from ua.core.mailing.personal import personal_mailing
-from ua.core.utils.states import UserState
+from heb.core.keyboards.user.menu_reply import rkb_menu, rkb_no_sub
+from heb.core.keyboards.user.my_subscriptions_reply import ikb_my_subscriptions
+from heb.core.mailing.personal import personal_mailing
+from heb.core.utils.states import UserState
 
 router = Router()
 

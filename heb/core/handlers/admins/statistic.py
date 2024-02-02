@@ -4,10 +4,10 @@ from aiogram import Router, F, Bot
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
-from ua.core.database.db_users import Users
-from ua.core.keyboards.admin_keyboards import generate_calendar_keyboard, rkb_back
-from ua.core.utils.chat_cleaner import del_message, message_list
-from ua.core.utils.states import AdminState
+from heb.core.database.db_users import Users
+from heb.core.keyboards.admin_keyboards import generate_calendar_keyboard, rkb_back
+from heb.core.utils.chat_cleaner import del_message, message_list
+from heb.core.utils.states import AdminState
 
 router = Router()
 

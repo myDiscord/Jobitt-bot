@@ -2,9 +2,9 @@ from aiogram import Router, F, Bot
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from ua.core.database.db_subscription import Subscription
-from ua.core.keyboards.admin_keyboards import rkb_admin_menu
-from ua.core.utils.chat_cleaner import message_list, del_message
+from heb.core.database.db_subscription import Subscription
+from heb.core.keyboards.admin_keyboards import rkb_admin_menu
+from heb.core.utils.chat_cleaner import message_list, del_message
 
 router = Router()
 
